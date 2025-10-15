@@ -4,11 +4,7 @@ import pytest
 import pandas as pd
 from io import StringIO
 
-from votuderep.core.filtering import (
-    parse_quality_threshold,
-    filter_by_checkv,
-    QUALITY_LEVELS
-)
+from votuderep.core.filtering import parse_quality_threshold, filter_by_checkv, QUALITY_LEVELS
 
 
 class TestQualityParsing:
@@ -57,8 +53,9 @@ seq1\t10000\tNo\tNA\t10\t10\t0\tComplete\tComplete\t100.0\tmethod1\t0.0\t1.0\t
 seq2\t8000\tYes\t5000\t8\t8\t0\tHigh-quality\tHigh-quality\t90.0\tmethod1\t0.5\t1.0\t
 seq3\t3000\tNo\tNA\t3\t3\t0\tMedium-quality\tMedium-quality\t50.0\tmethod1\t1.0\t1.0\t
 seq4\t2000\tNo\tNA\t2\t2\t0\tLow-quality\tLow-quality\t30.0\tmethod1\t2.0\t1.0\twarning1
-seq5\t1000\tNo\tNA\t1\t1\t0\tNot-determined\tNA\tNA\tNA\tNA\t0.5\t
-seq6\t15000\tNo\tNA\t15\t15\t0\tComplete\tComplete\t100.0\tmethod1\t0.0\t1.0\t"""
+seq5\t1000\tNo\tNA\t1\t1\t0\tLow-quality\tLow-quality\t20.0\tmethod1\t0.0\t0.5\t
+seq6\t15000\tNo\tNA\t15\t15\t0\tComplete\tComplete\t100.0\tmethod1\t0.0\t1.0\t
+seq7\t500\tNo\tNA\t1\t1\t0\tNot-determined\tNA\tNA\tNA\tNA\t0.5\t"""
 
         checkv_file = tmp_path / "checkv.tsv"
         checkv_file.write_text(data)
@@ -140,26 +137,19 @@ seq6\t15000\tNo\tNA\t15\t15\t0\tComplete\tComplete\t100.0\tmethod1\t0.0\t1.0\t""
 
     def test_filter_exclude_undetermined(self, sample_checkv_data):
         """Test excluding undetermined quality sequences."""
-        result = filter_by_checkv(
-            sample_checkv_data,
-            exclude_undetermined=True,
-            min_quality="low"
-        )
-        assert "seq5" not in result  # Not-determined
+        result = filter_by_checkv(sample_checkv_data, exclude_undetermined=True, min_quality="low")
+        assert "seq7" not in result  # Not-determined
         assert "seq1" in result  # Complete
         assert "seq4" in result  # Low-quality
 
     def test_filter_combined(self, sample_checkv_data):
         """Test combining multiple filters."""
         result = filter_by_checkv(
-            sample_checkv_data,
-            min_len=3000,
-            min_quality="medium",
-            no_warnings=True
+            sample_checkv_data, min_len=3000, min_quality="medium", no_warnings=True
         )
         assert "seq1" in result  # Passes all filters
         assert "seq2" in result  # Passes all filters
         assert "seq3" in result  # Passes all filters
         assert "seq6" in result  # Passes all filters
-        assert "seq4" not in result  # Has warning
-        assert "seq5" not in result  # Too short
+        assert "seq4" not in result  # Has warning and too short
+        assert "seq5" not in result  # Too short and quality too low

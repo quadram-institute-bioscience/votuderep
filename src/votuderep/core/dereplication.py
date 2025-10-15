@@ -22,7 +22,7 @@ def parse_blast_line(line: str) -> Dict:
     Returns:
         Dictionary with parsed BLAST fields
     """
-    fields = line.strip().split('\t')
+    fields = line.strip().split("\t")
     return {
         "qname": fields[0],
         "tname": fields[1],
@@ -46,7 +46,7 @@ def yield_alignment_blocks(blast_file: str) -> Iterator[List[Dict]]:
     Yields:
         List of alignments for each query-target pair
     """
-    handle = gzip.open(blast_file, 'rt') if blast_file.endswith('.gz') else open(blast_file)
+    handle = gzip.open(blast_file, "rt") if blast_file.endswith(".gz") else open(blast_file)
 
     try:
         # Initialize with first record
@@ -76,11 +76,7 @@ def yield_alignment_blocks(blast_file: str) -> Iterator[List[Dict]]:
         handle.close()
 
 
-def prune_alignments(
-    alns: List[Dict],
-    min_length: int = 0,
-    min_evalue: float = 1e-3
-) -> List[Dict]:
+def prune_alignments(alns: List[Dict], min_length: int = 0, min_evalue: float = 1e-3) -> List[Dict]:
     """
     Remove low-quality alignments and those beyond query coverage.
 
@@ -187,7 +183,7 @@ def calculate_ani(blast_file: str, output_file: str, min_length: int = 0) -> Non
     """
     logger.info("Calculating ANI from BLAST results")
 
-    handle = gzip.open(output_file, 'wt') if output_file.endswith('.gz') else open(output_file, 'w')
+    handle = gzip.open(output_file, "wt") if output_file.endswith(".gz") else open(output_file, "w")
 
     try:
         # Write header
@@ -220,7 +216,7 @@ def cluster_by_ani(
     min_ani: float = 95.0,
     min_qcov: float = 0.0,
     min_tcov: float = 85.0,
-    min_length: int = 1
+    min_length: int = 1,
 ) -> Dict[str, List[str]]:
     """
     Cluster sequences by ANI using centroid-based clustering.
@@ -254,16 +250,21 @@ def cluster_by_ani(
     edges = {seq_id: [] for seq_id in sorted_seqs}
     num_edges = 0
 
-    handle = gzip.open(ani_file, 'rt') if ani_file.endswith('.gz') else open(ani_file)
+    handle = gzip.open(ani_file, "rt") if ani_file.endswith(".gz") else open(ani_file)
 
     try:
         # Skip header
         next(handle)
 
         for line in handle:
-            fields = line.strip().split('\t')
+            fields = line.strip().split("\t")
             qname, tname = fields[0], fields[1]
-            num_alns, ani, qcov, tcov = int(fields[2]), float(fields[3]), float(fields[4]), float(fields[5])
+            num_alns, ani, qcov, tcov = (
+                int(fields[2]),
+                float(fields[3]),
+                float(fields[4]),
+                float(fields[5]),
+            )
 
             # Skip self-matches
             if qname == tname:
@@ -310,11 +311,7 @@ def cluster_by_ani(
 
 
 def dereplicate_sequences(
-    fasta_file: str,
-    blast_file: str,
-    output_ani: str,
-    min_ani: float = 95.0,
-    min_tcov: float = 85.0
+    fasta_file: str, blast_file: str, output_ani: str, min_ani: float = 95.0, min_tcov: float = 85.0
 ) -> Set[str]:
     """
     Dereplicate sequences by ANI clustering.
@@ -333,12 +330,7 @@ def dereplicate_sequences(
     calculate_ani(blast_file, output_ani)
 
     # Cluster sequences
-    clusters = cluster_by_ani(
-        fasta_file,
-        output_ani,
-        min_ani=min_ani,
-        min_tcov=min_tcov
-    )
+    clusters = cluster_by_ani(fasta_file, output_ani, min_ani=min_ani, min_tcov=min_tcov)
 
     # Return centroid IDs
     return set(clusters.keys())

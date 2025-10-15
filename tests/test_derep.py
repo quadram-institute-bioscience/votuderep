@@ -5,7 +5,7 @@ from votuderep.core.dereplication import (
     parse_blast_line,
     compute_ani,
     compute_coverage,
-    prune_alignments
+    prune_alignments,
 )
 
 
@@ -31,10 +31,7 @@ class TestANICalculation:
 
     def test_compute_ani(self):
         """Test ANI computation from alignments."""
-        alns = [
-            {"len": 100, "pid": 95.0},
-            {"len": 50, "pid": 90.0}
-        ]
+        alns = [{"len": 100, "pid": 95.0}, {"len": 50, "pid": 90.0}]
         ani = compute_ani(alns)
         expected = (100 * 95.0 + 50 * 90.0) / (100 + 50)
         assert ani == round(expected, 2)
@@ -52,18 +49,8 @@ class TestCoverageCalculation:
     def test_compute_coverage_non_overlapping(self):
         """Test coverage with non-overlapping alignments."""
         alns = [
-            {
-                "qcoords": [1, 100],
-                "tcoords": [1, 100],
-                "qlen": 1000.0,
-                "tlen": 1200.0
-            },
-            {
-                "qcoords": [201, 300],
-                "tcoords": [201, 300],
-                "qlen": 1000.0,
-                "tlen": 1200.0
-            }
+            {"qcoords": [1, 100], "tcoords": [1, 100], "qlen": 1000.0, "tlen": 1200.0},
+            {"qcoords": [201, 300], "tcoords": [201, 300], "qlen": 1000.0, "tlen": 1200.0},
         ]
         qcov, tcov = compute_coverage(alns)
         # 200 bases covered out of 1000
@@ -74,18 +61,8 @@ class TestCoverageCalculation:
     def test_compute_coverage_overlapping(self):
         """Test coverage with overlapping alignments."""
         alns = [
-            {
-                "qcoords": [1, 100],
-                "tcoords": [1, 100],
-                "qlen": 1000.0,
-                "tlen": 1000.0
-            },
-            {
-                "qcoords": [50, 150],
-                "tcoords": [50, 150],
-                "qlen": 1000.0,
-                "tlen": 1000.0
-            }
+            {"qcoords": [1, 100], "tcoords": [1, 100], "qlen": 1000.0, "tlen": 1000.0},
+            {"qcoords": [50, 150], "tcoords": [50, 150], "qlen": 1000.0, "tlen": 1000.0},
         ]
         qcov, tcov = compute_coverage(alns)
         # Should merge to 1-150 = 150 bases

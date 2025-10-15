@@ -16,7 +16,7 @@ from ..utils.validators import (
     check_blastn,
     validate_file_exists,
     validate_percentage,
-    VotuDerepError
+    VotuDerepError,
 )
 from ..utils.io import filter_sequences
 
@@ -42,7 +42,7 @@ def get_temp_directory(tmp_arg: str) -> str:
         return tmp_arg
 
     # Try common temp directories
-    for temp_dir in [os.environ.get('TEMP'), os.environ.get('TMP'), '/tmp', '.']:
+    for temp_dir in [os.environ.get("TEMP"), os.environ.get("TMP"), "/tmp", "."]:
         if temp_dir and os.path.isdir(temp_dir):
             return temp_dir
 
@@ -51,46 +51,36 @@ def get_temp_directory(tmp_arg: str) -> str:
 
 @click.command(name="derep")
 @click.option(
-    "-i", "--input",
+    "-i",
+    "--input",
     required=True,
     type=click.Path(exists=True, dir_okay=False),
-    help="Input FASTA file containing vOTUs"
+    help="Input FASTA file containing vOTUs",
 )
 @click.option(
-    "-o", "--output",
+    "-o",
+    "--output",
     default="dereplicated_vOTUs.fasta",
     type=click.Path(dir_okay=False),
-    help="Output FASTA file with dereplicated vOTUs"
+    help="Output FASTA file with dereplicated vOTUs",
 )
-@click.option(
-    "-t", "--threads",
-    default=2,
-    type=int,
-    help="Number of threads for BLAST"
-)
+@click.option("-t", "--threads", default=2, type=int, help="Number of threads for BLAST")
 @click.option(
     "--tmp",
     default="",
     type=str,
-    help="Directory for temporary files (default: $TEMP or /tmp or ./)"
+    help="Directory for temporary files (default: $TEMP or /tmp or ./)",
 )
 @click.option(
-    "--min-ani",
-    default=95.0,
-    type=float,
-    help="Minimum ANI to consider two vOTUs as the same"
+    "--min-ani", default=95.0, type=float, help="Minimum ANI to consider two vOTUs as the same"
 )
 @click.option(
     "--min-tcov",
     default=85.0,
     type=float,
-    help="Minimum target coverage to consider two vOTUs as the same"
+    help="Minimum target coverage to consider two vOTUs as the same",
 )
-@click.option(
-    "--keep",
-    is_flag=True,
-    help="Keep the temporary directory after completion"
-)
+@click.option("--keep", is_flag=True, help="Keep the temporary directory after completion")
 @click.pass_context
 def derep(
     ctx,
@@ -100,7 +90,7 @@ def derep(
     tmp: str,
     min_ani: float,
     min_tcov: float,
-    keep: bool
+    keep: bool,
 ):
     """
     Dereplicate vOTUs using BLAST and ANI clustering.
@@ -154,7 +144,7 @@ def derep(
             TextColumn("[progress.description]{task.description}"),
             BarColumn(),
             TimeElapsedColumn(),
-            console=console
+            console=console,
         ) as progress:
 
             # Step 1: Create BLAST database
@@ -166,12 +156,7 @@ def derep(
             # Step 2: Run BLAST
             task2 = progress.add_task(f"[cyan]Running BLASTN ({threads} threads)...", total=None)
             blast_output = os.path.join(temp_dir, "blast.tsv")
-            run_blastn(
-                query=input,
-                database=db_path,
-                output=blast_output,
-                threads=threads
-            )
+            run_blastn(query=input, database=db_path, output=blast_output, threads=threads)
             progress.update(task2, completed=True)
 
             # Step 3: Dereplicate sequences
@@ -182,16 +167,14 @@ def derep(
                 blast_file=blast_output,
                 output_ani=ani_output,
                 min_ani=min_ani,
-                min_tcov=min_tcov
+                min_tcov=min_tcov,
             )
             progress.update(task3, completed=True)
 
             # Step 4: Write output
             task4 = progress.add_task("[cyan]Writing dereplicated sequences...", total=None)
             num_written = filter_sequences(
-                file_path=input,
-                sequence_ids=representative_ids,
-                output_path=output
+                file_path=input, sequence_ids=representative_ids, output_path=output
             )
             progress.update(task4, completed=True)
 
@@ -206,7 +189,7 @@ def derep(
 
     except Exception as e:
         console.print(f"\n[bold red]Error during dereplication:[/bold red] {e}")
-        if ctx.obj.get('verbose'):
+        if ctx.obj.get("verbose"):
             console.print_exception()
         raise click.Abort()
 

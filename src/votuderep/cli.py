@@ -22,11 +22,7 @@ console = Console(stderr=True)
 
 @click.group()
 @click.version_option(version=__version__, prog_name="votuderep")
-@click.option(
-    "-v", "--verbose",
-    is_flag=True,
-    help="Enable verbose logging"
-)
+@click.option("-v", "--verbose", is_flag=True, help="Enable verbose logging")
 @click.pass_context
 def cli(ctx, verbose: bool):
     """
@@ -39,7 +35,7 @@ def cli(ctx, verbose: bool):
     """
     # Ensure context object exists
     ctx.ensure_object(dict)
-    ctx.obj['verbose'] = verbose
+    ctx.obj["verbose"] = verbose
 
     # Setup logger
     setup_logger(verbose=verbose)

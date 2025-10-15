@@ -15,69 +15,36 @@ logger = get_logger(__name__)
 
 
 @click.command(name="filter")
-@click.argument(
-    "fasta",
-    type=click.Path(exists=True, dir_okay=False)
-)
-@click.argument(
-    "checkv_out",
-    type=click.Path(exists=True, dir_okay=False)
-)
+@click.argument("fasta", type=click.Path(exists=True, dir_okay=False))
+@click.argument("checkv_out", type=click.Path(exists=True, dir_okay=False))
 @click.option(
-    "-o", "--output",
+    "-o",
+    "--output",
     type=click.Path(dir_okay=False),
     default=None,
-    help="Output FASTA file (default: STDOUT)"
+    help="Output FASTA file (default: STDOUT)",
 )
+@click.option("-m", "--min-len", type=int, default=0, help="Minimum contig length")
+@click.option("--max-len", type=int, default=0, help="Maximum contig length (0 = unlimited)")
+@click.option("--provirus", is_flag=True, help="Only select proviruses (provirus == 'Yes')")
 @click.option(
-    "-m", "--min-len",
-    type=int,
-    default=0,
-    help="Minimum contig length"
+    "-c", "--min-completeness", type=float, default=None, help="Minimum completeness percentage"
 )
-@click.option(
-    "--max-len",
-    type=int,
-    default=0,
-    help="Maximum contig length (0 = unlimited)"
-)
-@click.option(
-    "--provirus",
-    is_flag=True,
-    help="Only select proviruses (provirus == 'Yes')"
-)
-@click.option(
-    "-c", "--min-completeness",
-    type=float,
-    default=None,
-    help="Minimum completeness percentage"
-)
-@click.option(
-    "--max-contam",
-    type=float,
-    default=None,
-    help="Maximum contamination percentage"
-)
-@click.option(
-    "--no-warnings",
-    is_flag=True,
-    help="Only keep contigs with no warnings"
-)
+@click.option("--max-contam", type=float, default=None, help="Maximum contamination percentage")
+@click.option("--no-warnings", is_flag=True, help="Only keep contigs with no warnings")
 @click.option(
     "--exclude-undetermined",
     is_flag=True,
-    help="Exclude contigs with checkv_quality == 'Not-determined'"
+    help="Exclude contigs with checkv_quality == 'Not-determined'",
 )
 @click.option(
-    "--complete",
-    is_flag=True,
-    help="Only keep contigs with checkv_quality == 'Complete'"
+    "--complete", is_flag=True, help="Only keep contigs with checkv_quality == 'Complete'"
 )
 @click.option(
     "--min-quality",
-    type=click.Choice(['low', 'medium', 'high'], case_sensitive=False),
-    default='low',
-    help="Minimum quality level: low (includes Low/Medium/High/Complete), medium (Medium/High/Complete), or high (High/Complete)"
+    type=click.Choice(["low", "medium", "high"], case_sensitive=False),
+    default="low",
+    help="Minimum quality level: low (includes Low/Medium/High/Complete), medium (Medium/High/Complete), or high (High/Complete)",
 )
 @click.pass_context
 def filter_cmd(
@@ -93,7 +60,7 @@ def filter_cmd(
     no_warnings: bool,
     exclude_undetermined: bool,
     complete: bool,
-    min_quality: str
+    min_quality: str,
 ):
     """
     Filter FASTA file using CheckV quality metrics.
@@ -161,22 +128,20 @@ def filter_cmd(
             no_warnings=no_warnings,
             exclude_undetermined=exclude_undetermined,
             complete_only=complete,
-            min_quality=min_quality.lower()
+            min_quality=min_quality.lower(),
         )
 
         if len(passing_ids) == 0:
             console.print("[yellow]Warning:[/yellow] No sequences passed the filters")
             if output:
                 # Create empty output file
-                open(output, 'w').close()
+                open(output, "w").close()
             return
 
         # Filter FASTA file
         logger.info("Filtering FASTA file")
         num_written = filter_sequences(
-            file_path=fasta,
-            sequence_ids=passing_ids,
-            output_path=output
+            file_path=fasta, sequence_ids=passing_ids, output_path=output
         )
 
         # Success message (to stderr so it doesn't interfere with stdout output)
@@ -190,11 +155,11 @@ def filter_cmd(
 
     except VotuDerepError as e:
         console.print(f"\n[bold red]Error during filtering:[/bold red] {e}")
-        if ctx.obj.get('verbose'):
+        if ctx.obj.get("verbose"):
             console.print_exception()
         raise click.Abort()
     except Exception as e:
         console.print(f"\n[bold red]Unexpected error:[/bold red] {e}")
-        if ctx.obj.get('verbose'):
+        if ctx.obj.get("verbose"):
             console.print_exception()
         raise click.Abort()

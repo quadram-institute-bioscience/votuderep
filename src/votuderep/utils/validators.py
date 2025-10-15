@@ -9,16 +9,19 @@ from typing import Optional
 
 class VotuDerepError(Exception):
     """Base exception for votuderep errors."""
+
     pass
 
 
 class BlastnNotFoundError(VotuDerepError):
     """Exception raised when blastn is not found in PATH."""
+
     pass
 
 
 class FileValidationError(VotuDerepError):
     """Exception raised when file validation fails."""
+
     pass
 
 
@@ -39,18 +42,14 @@ def check_blastn(custom_path: Optional[str] = None) -> str:
     if custom_path:
         if os.path.isfile(custom_path) and os.access(custom_path, os.X_OK):
             return custom_path
-        raise BlastnNotFoundError(
-            f"blastn not found at specified path: {custom_path}"
-        )
+        raise BlastnNotFoundError(f"blastn not found at specified path: {custom_path}")
 
     # Check environment variable
     env_path = os.environ.get("VOTUDEREP_BLASTN_PATH")
     if env_path:
         if os.path.isfile(env_path) and os.access(env_path, os.X_OK):
             return env_path
-        raise BlastnNotFoundError(
-            f"blastn not found at VOTUDEREP_BLASTN_PATH: {env_path}"
-        )
+        raise BlastnNotFoundError(f"blastn not found at VOTUDEREP_BLASTN_PATH: {env_path}")
 
     # Check PATH
     blastn_path = shutil.which("blastn")
@@ -84,10 +83,7 @@ def get_blastn_version(blastn_path: str) -> str:
     """
     try:
         result = subprocess.run(
-            [blastn_path, "-version"],
-            capture_output=True,
-            text=True,
-            check=True
+            [blastn_path, "-version"], capture_output=True, text=True, check=True
         )
         # Extract version from output (e.g., "blastn: 2.13.0+")
         version_line = result.stdout.strip().split("\n")[0]
@@ -154,7 +150,9 @@ def validate_output_path(file_path: str) -> Path:
     return path
 
 
-def validate_percentage(value: float, name: str, min_val: float = 0.0, max_val: float = 100.0) -> float:
+def validate_percentage(
+    value: float, name: str, min_val: float = 0.0, max_val: float = 100.0
+) -> float:
     """
     Validate that a value is a valid percentage.
 
@@ -171,7 +169,5 @@ def validate_percentage(value: float, name: str, min_val: float = 0.0, max_val: 
         VotuDerepError: If value is out of range
     """
     if not min_val <= value <= max_val:
-        raise VotuDerepError(
-            f"{name} must be between {min_val} and {max_val}, got {value}"
-        )
+        raise VotuDerepError(f"{name} must be between {min_val} and {max_val}, got {value}")
     return value

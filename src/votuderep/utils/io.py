@@ -26,8 +26,7 @@ def read_fasta(file_path: str) -> Iterator[Tuple[str, str]]:
     """
     if pyfastx is None:
         raise ImportError(
-            "pyfastx is required for reading FASTA files. "
-            "Install it with: pip install pyfastx"
+            "pyfastx is required for reading FASTA files. " "Install it with: pip install pyfastx"
         )
 
     path = Path(file_path)
@@ -40,9 +39,7 @@ def read_fasta(file_path: str) -> Iterator[Tuple[str, str]]:
 
 
 def write_fasta(
-    sequences: Iterator[Tuple[str, str]],
-    output_path: Optional[str] = None,
-    line_width: int = 80
+    sequences: Iterator[Tuple[str, str]], output_path: Optional[str] = None, line_width: int = 80
 ) -> None:
     """
     Write sequences to a FASTA file or stdout.
@@ -71,7 +68,7 @@ def write_fasta(
             # Write sequence with optional line wrapping
             if line_width > 0:
                 for i in range(0, len(sequence), line_width):
-                    handle.write(sequence[i:i + line_width] + "\n")
+                    handle.write(sequence[i : i + line_width] + "\n")
             else:
                 handle.write(sequence + "\n")
 
@@ -96,8 +93,7 @@ def count_sequences(file_path: str) -> int:
     """
     if pyfastx is None:
         raise ImportError(
-            "pyfastx is required for reading FASTA files. "
-            "Install it with: pip install pyfastx"
+            "pyfastx is required for reading FASTA files. " "Install it with: pip install pyfastx"
         )
 
     path = Path(file_path)
@@ -126,8 +122,7 @@ def get_sequence_lengths(file_path: str) -> dict[str, int]:
     """
     if pyfastx is None:
         raise ImportError(
-            "pyfastx is required for reading FASTA files. "
-            "Install it with: pip install pyfastx"
+            "pyfastx is required for reading FASTA files. " "Install it with: pip install pyfastx"
         )
 
     path = Path(file_path)
@@ -142,10 +137,7 @@ def get_sequence_lengths(file_path: str) -> dict[str, int]:
 
 
 def filter_sequences(
-    file_path: str,
-    sequence_ids: set[str],
-    output_path: Optional[str] = None,
-    exclude: bool = False
+    file_path: str, sequence_ids: set[str], output_path: Optional[str] = None, exclude: bool = False
 ) -> int:
     """
     Filter sequences from a FASTA file by ID.

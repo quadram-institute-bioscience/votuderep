@@ -34,15 +34,14 @@ Dynamic: license-file
 
 # votuderep
 
-A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral Operational Taxonomic Units).
+A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral Operational Taxonomic Units)
+using the CheckV method.
 
 ## Features
 
 - **Dereplicate vOTUs**: Remove redundant viral sequences using BLAST-based ANI clustering
 - **Filter by CheckV metrics**: Filter viral contigs based on quality, completeness, and other metrics
-- **Rich CLI interface**: Beautiful, user-friendly command-line interface powered by rich-click
-- **Modular design**: Well-structured codebase with separation of concerns
-- **Type-safe**: Written with type hints for better code quality
+- ...
 
 ## Requirements
 
@@ -80,7 +79,6 @@ sudo apt-get install ncbi-blast+
 brew install blast
 ```
 
-Alternatively, download from [NCBI](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 
 ## Usage
 
@@ -210,86 +208,18 @@ Note: "Not-determined" sequences are included by default unless `--exclude-undet
 - `--version`: Show version and exit
 - `--help`: Show help message
 
-## Project Structure
-
-```
-votuderep/
-├── pyproject.toml          # Modern Python packaging configuration
-├── README.md               # This file
-├── src/
-│   └── votuderep/
-│       ├── __init__.py     # Package initialization
-│       ├── __main__.py     # Entry point for python -m votuderep
-│       ├── cli.py          # Main CLI setup
-│       ├── commands/       # Subcommands
-│       │   ├── __init__.py
-│       │   ├── derep.py    # Dereplication command
-│       │   └── filter.py   # Filtering command
-│       ├── core/           # Business logic
-│       │   ├── __init__.py
-│       │   ├── blast.py    # BLAST operations
-│       │   ├── dereplication.py  # ANI calculation and clustering
-│       │   └── filtering.py      # CheckV filtering logic
-│       └── utils/          # Utilities
-│           ├── __init__.py
-│           ├── validators.py  # Input validation
-│           ├── io.py          # File I/O helpers
-│           └── logging.py     # Logging setup
-└── tests/                  # Test suite
-    ├── test_derep.py
-    └── test_filter.py
-```
-
-## Development
-
-### Install development dependencies
-
-```bash
-pip install -e ".[dev]"
-```
-
-### Run tests
-
-```bash
-pytest
-```
-
-### Code formatting
-
-```bash
-# Format code
-black src/
-
-# Lint code
-ruff check src/
-```
-
-## Environment Variables
-
-- `VOTUDEREP_BLASTN_PATH`: Custom path to blastn executable
-
 ## License
 
 MIT License - See LICENSE file for details
 
-## Citation
-
-If you use votuderep in your research, please cite:
-
-```
-[Citation information to be added]
-```
-
+ 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Authors
 
-- Your Name (your.email@example.com)
+Andrea Telatin & QIB Core Bioinformatics
 
-## Acknowledgments
-
-- BLAST+ for sequence comparison
-- CheckV for viral genome quality assessment
-- Rich and rich-click for beautiful CLI output
+©️ Quadram Institute Bioscience 2025
+ 

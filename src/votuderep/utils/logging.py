@@ -13,9 +13,7 @@ console = Console(stderr=True)
 
 
 def setup_logger(
-    name: str = "votuderep",
-    level: int = logging.INFO,
-    verbose: bool = False
+    name: str = "votuderep", level: int = logging.INFO, verbose: bool = False
 ) -> logging.Logger:
     """
     Set up a logger with rich handler.
@@ -51,10 +49,7 @@ def setup_logger(
     handler.setLevel(level)
 
     # Create formatter
-    formatter = logging.Formatter(
-        "%(message)s",
-        datefmt="[%X]"
-    )
+    formatter = logging.Formatter("%(message)s", datefmt="[%X]")
     handler.setFormatter(formatter)
 
     # Add handler to logger

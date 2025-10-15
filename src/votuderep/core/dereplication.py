@@ -1,10 +1,8 @@
 """ANI calculation and clustering for vOTU dereplication."""
 
 import gzip
-from pathlib import Path
 from typing import Iterator, Dict, List, Tuple, Set
 
-import numpy as np
 
 from ..utils.logging import get_logger
 from ..utils.io import read_fasta
@@ -259,8 +257,7 @@ def cluster_by_ani(
         for line in handle:
             fields = line.strip().split("\t")
             qname, tname = fields[0], fields[1]
-            num_alns, ani, qcov, tcov = (
-                int(fields[2]),
+            ani, qcov, tcov = (
                 float(fields[3]),
                 float(fields[4]),
                 float(fields[5]),

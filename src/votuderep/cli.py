@@ -1,7 +1,6 @@
 """Main CLI interface for votuderep using rich-click."""
 
 import sys
-from typing import Optional
 
 import rich_click as click
 from rich.console import Console

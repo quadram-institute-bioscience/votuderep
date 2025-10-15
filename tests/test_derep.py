@@ -1,6 +1,5 @@
 """Tests for dereplication functionality."""
 
-import pytest
 from votuderep.core.dereplication import (
     parse_blast_line,
     compute_ani,

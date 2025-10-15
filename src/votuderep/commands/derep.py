@@ -3,7 +3,6 @@
 import os
 import shutil
 import tempfile
-from pathlib import Path
 
 import rich_click as click
 from rich.console import Console
@@ -179,7 +178,7 @@ def derep(
             progress.update(task4, completed=True)
 
         # Success message
-        console.print(f"\n[bold green]Success![/bold green]")
+        console.print("\n[bold green]Success![/bold green]")
         console.print(f"Wrote {num_written} dereplicated sequences to: [bold]{output}[/bold]")
 
         if keep:

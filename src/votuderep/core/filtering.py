@@ -1,6 +1,5 @@
 """Filtering sequences based on CheckV quality metrics."""
 
-from pathlib import Path
 from typing import Set, Optional
 
 import pandas as pd

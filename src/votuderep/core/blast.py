@@ -1,8 +1,6 @@
 """BLAST operations for vOTU dereplication."""
 
 import subprocess
-from pathlib import Path
-from typing import Optional
 
 from ..utils.logging import get_logger
 from ..utils.validators import VotuDerepError

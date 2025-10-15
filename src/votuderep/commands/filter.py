@@ -1,7 +1,5 @@
 """Filter command for filtering FASTA files using CheckV metrics."""
 
-import sys
-
 import rich_click as click
 from rich.console import Console
 
@@ -145,7 +143,7 @@ def filter_cmd(
         )
 
         # Success message (to stderr so it doesn't interfere with stdout output)
-        console.print(f"\n[bold green]Success![/bold green]")
+        console.print("\n[bold green]Success![/bold green]")
         console.print(f"Filtered {num_written} sequences")
 
         if output:

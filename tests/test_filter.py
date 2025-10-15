@@ -1,8 +1,6 @@
 """Tests for filtering functionality."""
 
 import pytest
-import pandas as pd
-from io import StringIO
 
 from votuderep.core.filtering import parse_quality_threshold, filter_by_checkv, QUALITY_LEVELS
 

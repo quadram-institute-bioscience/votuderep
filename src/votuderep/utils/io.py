@@ -2,7 +2,7 @@
 
 import sys
 from pathlib import Path
-from typing import Iterator, Tuple, Optional, TextIO
+from typing import Iterator, Tuple, Optional
 
 try:
     import pyfastx

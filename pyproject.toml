@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Andrea Telatin", email = "andrea.telatin@gmail.com"}
 ]
 keywords = ["bioinformatics", "viral", "contigs", "dereplication", "blast"]
 classifiers = [
@@ -44,10 +44,10 @@ dev = [
 votuderep = "votuderep.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/votuderep"
-Documentation = "https://github.com/yourusername/votuderep#readme"
-Repository = "https://github.com/yourusername/votuderep"
-Issues = "https://github.com/yourusername/votuderep/issues"
+Homepage = "https://github.com/quadram-institute-bioscience/votuderep"
+Documentation = "https://github.com/quadram-institute-bioscience/votuderep#readme"
+Repository = "https://github.com/quadram-institute-bioscience/votuderep"
+Issues = "https://github.com/quadram-institute-bioscience/votuderep/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

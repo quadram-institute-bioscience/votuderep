@@ -1,5 +1,10 @@
 # votuderep
 
+[![Test](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml/badge.svg)](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml)
+
+
+![Logo](votuderep.png)
+
 A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral Operational Taxonomic Units)
 using the CheckV method.
 

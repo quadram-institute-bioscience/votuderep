@@ -1,12 +1,13 @@
 """Derep command for dereplicating vOTUs."""
 
+import logging
 import os
 import shutil
 import tempfile
 
 import rich_click as click
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 
 from ..core.blast import run_makeblastdb, run_blastn
 from ..core.dereplication import dereplicate_sequences
@@ -106,6 +107,9 @@ def derep(
     """
     console.print("[bold blue]votuderep derep[/bold blue] - Dereplicate vOTUs\n")
 
+    # Get verbose flag
+    verbose = ctx.obj.get("verbose", False)
+
     # Validate input
     try:
         validate_file_exists(input, "Input FASTA file")
@@ -118,7 +122,8 @@ def derep(
     # Check for blastn
     try:
         blastn_path = check_blastn()
-        logger.info(f"Using blastn: {blastn_path}")
+        if verbose:
+            console.print(f"[dim]Using blastn: {blastn_path}[/dim]")
     except VotuDerepError as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
         raise click.Abort()
@@ -132,31 +137,40 @@ def derep(
 
     # Create temporary directory
     temp_dir = tempfile.mkdtemp(dir=temp_base, prefix="votuderep_")
-    logger.info(f"Temporary directory: {temp_dir}")
+    if verbose:
+        console.print(f"[dim]Temporary directory: {temp_dir}[/dim]")
 
     if keep:
         console.print(f"[yellow]Temporary files will be kept in:[/yellow] {temp_dir}\n")
 
     try:
+        # Temporarily suppress INFO logs during progress display unless verbose
+        if not verbose:
+            # Save current log level
+            root_logger = logging.getLogger("votuderep")
+            original_level = root_logger.level
+            # Suppress INFO logs during progress display
+            root_logger.setLevel(logging.WARNING)
+
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
-            BarColumn(),
             TimeElapsedColumn(),
             console=console,
+            transient=False,
         ) as progress:
 
             # Step 1: Create BLAST database
             task1 = progress.add_task("[cyan]Creating BLAST database...", total=None)
             db_path = os.path.join(temp_dir, "db")
             run_makeblastdb(input, db_path)
-            progress.update(task1, completed=True)
+            progress.remove_task(task1)
 
             # Step 2: Run BLAST
             task2 = progress.add_task(f"[cyan]Running BLASTN ({threads} threads)...", total=None)
             blast_output = os.path.join(temp_dir, "blast.tsv")
             run_blastn(query=input, database=db_path, output=blast_output, threads=threads)
-            progress.update(task2, completed=True)
+            progress.remove_task(task2)
 
             # Step 3: Dereplicate sequences
             task3 = progress.add_task("[cyan]Calculating ANI and clustering...", total=None)
@@ -168,14 +182,18 @@ def derep(
                 min_ani=min_ani,
                 min_tcov=min_tcov,
             )
-            progress.update(task3, completed=True)
+            progress.remove_task(task3)
 
             # Step 4: Write output
             task4 = progress.add_task("[cyan]Writing dereplicated sequences...", total=None)
             num_written = filter_sequences(
                 file_path=input, sequence_ids=representative_ids, output_path=output
             )
-            progress.update(task4, completed=True)
+            progress.remove_task(task4)
+
+        # Restore log level
+        if not verbose:
+            root_logger.setLevel(original_level)
 
         # Success message
         console.print("\n[bold green]Success![/bold green]")

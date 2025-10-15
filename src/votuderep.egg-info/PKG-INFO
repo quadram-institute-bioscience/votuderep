@@ -2,12 +2,12 @@ Metadata-Version: 2.4
 Name: votuderep
 Version: 0.1.0
 Summary: A CLI tool for dereplicating and filtering viral contigs
-Author-email: Your Name <your.email@example.com>
+Author-email: Andrea Telatin <andrea.telatin@gmail.com>
 License: MIT
-Project-URL: Homepage, https://github.com/yourusername/votuderep
-Project-URL: Documentation, https://github.com/yourusername/votuderep#readme
-Project-URL: Repository, https://github.com/yourusername/votuderep
-Project-URL: Issues, https://github.com/yourusername/votuderep/issues
+Project-URL: Homepage, https://github.com/quadram-institute-bioscience/votuderep
+Project-URL: Documentation, https://github.com/quadram-institute-bioscience/votuderep#readme
+Project-URL: Repository, https://github.com/quadram-institute-bioscience/votuderep
+Project-URL: Issues, https://github.com/quadram-institute-bioscience/votuderep/issues
 Keywords: bioinformatics,viral,contigs,dereplication,blast
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Science/Research
@@ -33,6 +33,11 @@ Requires-Dist: ruff>=0.1.0; extra == "dev"
 Dynamic: license-file
 
 # votuderep
+
+[![Test](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml/badge.svg)](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml)
+
+
+![Logo](votuderep.png)
 
 A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral Operational Taxonomic Units)
 using the CheckV method.

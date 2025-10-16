@@ -12,7 +12,8 @@ using the CheckV method.
 
 - **Dereplicate vOTUs**: Remove redundant viral sequences using BLAST-based ANI clustering
 - **Filter by CheckV metrics**: Filter viral contigs based on quality, completeness, and other metrics
-- ...
+- **Tabulate reads**: Generate CSV tables from paired-end sequencing read directories
+- **Download training data**: Fetch viral assembly datasets for training purposes
 
 ## Requirements
 
@@ -53,7 +54,7 @@ brew install blast
 
 ## Usage
 
-votuderep provides two main commands: `derep` and `filter`.
+votuderep provides four main commands: `derep`, `filter`, `tabulate`, and `trainingdata`.
 
 ### Dereplicate vOTUs
 
@@ -172,6 +173,63 @@ The `--min-quality` option filters inclusively:
 - `high`: Includes High and Complete only
 
 Note: "Not-determined" sequences are included by default unless `--exclude-undetermined` is used.
+
+### Tabulate Reads
+
+Generate a CSV table from a directory containing paired-end sequencing reads:
+
+```bash
+votuderep tabulate reads/ -o samples.csv
+```
+
+**Required Arguments:**
+
+- `INPUT_DIR`: Directory containing sequencing read files
+
+**Options:**
+
+- `-o, --output`: Output CSV file [default: STDOUT]
+- `-d, --delimiter`: Field separator [default: ,]
+- `-1, --for-tag`: Forward read identifier [default: _R1]
+- `-2, --rev-tag`: Reverse read identifier [default: _R2]
+- `-s, --strip`: Remove string from sample names (can be used multiple times)
+- `-e, --extension`: Only process files with this extension
+- `-a, --absolute`: Use absolute paths in output
+
+**Examples:**
+
+```bash
+# Basic usage - generate CSV table
+votuderep tabulate reads/ -o samples.csv
+
+# Custom read tags and extension
+votuderep tabulate reads/ --for-tag _1 --rev-tag _2 --extension .fq.gz
+
+# Strip patterns from sample names and use absolute paths
+votuderep tabulate reads/ --strip "Sample_" --strip ".filtered" -a
+```
+
+### Download Training Data
+
+Download viral assembly and sequencing reads for training purposes:
+
+```bash
+votuderep trainingdata -o ./ebame-virome/
+```
+
+**Options:**
+
+- `-o, --outdir`: Output directory [default: ./ebame-virome/]
+
+**Example:**
+
+```bash
+# Download to default directory
+votuderep trainingdata
+
+# Download to custom directory
+votuderep trainingdata -o ./training_data/
+```
 
 ## Global Options
 

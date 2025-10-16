@@ -31,6 +31,7 @@ def cli(ctx, verbose: bool):
 
     • [bold]derep[/bold]: Dereplicate vOTUs using BLAST and ANI clustering
     • [bold]filter[/bold]: Filter FASTA files using CheckV quality metrics
+    • [bold]tabulate[/bold]: Generate CSV file from a directory containing reads
     • [bold]trainingdata[/bold]: Download training dataset from the internet
     """
     # Ensure context object exists
@@ -47,11 +48,13 @@ def main():
         # Import commands here to avoid circular imports
         from .commands.derep import derep
         from .commands.filter import filter_cmd
+        from .commands.tabulate import tabulate
         from .commands.trainingdata import trainingdata
 
         # Register commands
         cli.add_command(derep)
         cli.add_command(filter_cmd)
+        cli.add_command(tabulate)
         cli.add_command(trainingdata)
 
         # Run CLI

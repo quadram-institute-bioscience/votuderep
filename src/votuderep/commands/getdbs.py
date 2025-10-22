@@ -19,7 +19,9 @@ def download_file_with_marker(
     url: str, output_path: Path, description: str = "Downloading"
 ) -> bool:
     """
-    Download a file from a URL with progress indication and create a .done marker.
+    Download a file from a URL with progress indication.
+
+    Uses .downloading suffix during download, removes it on completion.
 
     Args:
         url: URL to download from
@@ -27,23 +29,27 @@ def download_file_with_marker(
         description: Description for progress indicator
 
     Returns:
-        True if downloaded successfully, False if skipped (already complete)
+        True if downloaded successfully, False if skipped (already exists)
 
     Raises:
         VotuDerepError: If download fails
     """
-    done_marker = Path(str(output_path) + ".done")
+    # Path with .downloading suffix for in-progress downloads
+    downloading_path = Path(str(output_path) + ".downloading")
 
-    # Check if already downloaded
-    if done_marker.exists() and output_path.exists():
+    # Check if file already exists (complete download)
+    if output_path.exists():
         logger.info(f"Skipping download (already complete): {output_path.name}")
-        console.print(f"[yellow]⊙[/yellow] {output_path.name} already downloaded")
+        console.print(
+            f"[yellow]⊙[/yellow] Skipping download of {output_path.name} (already exists)"
+        )
         return False
 
-    # Clean up partial download if exists
-    if output_path.exists() and not done_marker.exists():
-        logger.warning(f"Removing partial download: {output_path}")
-        output_path.unlink()
+    # Clean up any failed download (.downloading file)
+    if downloading_path.exists():
+        logger.warning(f"Removing failed download: {downloading_path}")
+        console.print(f"[yellow]![/yellow] Removing incomplete download: {downloading_path.name}")
+        downloading_path.unlink()
 
     try:
         with Progress(
@@ -59,11 +65,12 @@ def download_file_with_marker(
                     percent = min(100, (block_num * block_size * 100) / total_size)
                     progress.update(task, completed=percent)
 
-            urllib.request.urlretrieve(url, str(output_path), reporthook)
+            # Download to .downloading file first
+            urllib.request.urlretrieve(url, str(downloading_path), reporthook)
             progress.update(task, completed=100)
 
-        # Create .done marker
-        done_marker.touch()
+        # Move to final location (remove .downloading suffix)
+        downloading_path.rename(output_path)
         logger.info(f"Downloaded: {output_path}")
         console.print(f"[green]✓[/green] Downloaded {output_path.name}")
 
@@ -71,14 +78,16 @@ def download_file_with_marker(
 
     except Exception as e:
         # Clean up failed download
-        if output_path.exists():
-            output_path.unlink()
+        if downloading_path.exists():
+            downloading_path.unlink()
         raise VotuDerepError(f"Failed to download {url}: {e}")
 
 
 def extract_tarball(tarball_path: Path, output_dir: Path, description: str = "Extracting") -> bool:
     """
     Extract a tarball to the specified directory.
+
+    Creates .extracted marker file after successful extraction.
 
     Args:
         tarball_path: Path to the tarball file
@@ -91,8 +100,10 @@ def extract_tarball(tarball_path: Path, output_dir: Path, description: str = "Ex
     Raises:
         VotuDerepError: If extraction fails
     """
+    # Create marker file path (archive_name.extracted in same directory)
+    extraction_marker = tarball_path.parent / f"{tarball_path.name}.extracted"
+
     # Determine the expected extracted directory name
-    # Remove .tar.gz or .tgz extensions
     if tarball_path.name.endswith(".tar.gz"):
         db_name = tarball_path.name[:-7]
     elif tarball_path.name.endswith(".tgz"):
@@ -101,13 +112,21 @@ def extract_tarball(tarball_path: Path, output_dir: Path, description: str = "Ex
         db_name = tarball_path.stem
 
     extracted_dir = output_dir / db_name
-    extraction_marker = extracted_dir / ".extracted"
 
-    # Check if already extracted
-    if extraction_marker.exists() and extracted_dir.exists():
+    # Check if extraction marker exists (successful extraction)
+    if extraction_marker.exists():
         logger.info(f"Skipping extraction (already complete): {db_name}")
-        console.print(f"[yellow]⊙[/yellow] {db_name} already extracted")
+        console.print(f"[yellow]⊙[/yellow] Skipping extraction of {db_name} (already extracted)")
         return False
+
+    # If no marker but directory exists, assume failed extraction and clean up
+    if extracted_dir.exists() and not extraction_marker.exists():
+        logger.warning(f"Found incomplete extraction, removing: {extracted_dir}")
+        console.print(f"[yellow]![/yellow] Removing incomplete extraction: {extracted_dir}")
+        # Remove the incomplete extraction
+        import shutil
+
+        shutil.rmtree(extracted_dir)
 
     try:
         with Progress(
@@ -124,16 +143,19 @@ def extract_tarball(tarball_path: Path, output_dir: Path, description: str = "Ex
 
             progress.update(task, completed=100)
 
-        # Create extraction marker
-        if extracted_dir.exists():
-            extraction_marker.touch()
-
+        # Create extraction marker after successful extraction
+        extraction_marker.touch()
         logger.info(f"Extracted: {tarball_path} to {output_dir}")
         console.print(f"[green]✓[/green] Extracted {db_name}")
 
         return True
 
     except Exception as e:
+        # Clean up failed extraction
+        if extracted_dir.exists():
+            import shutil
+
+            shutil.rmtree(extracted_dir)
         raise VotuDerepError(f"Failed to extract {tarball_path}: {e}")
 
 
@@ -218,8 +240,9 @@ def getdbs(ctx, outdir: str, force: bool):
 
             # Download
             try:
-                download_file_with_marker(db["url"], tarball_path, f"Downloading {db['name']}")
-                downloaded_tarballs.append(tarball_path)
+                if download_file_with_marker(db["url"], tarball_path, f"Downloading {db['name']}"):
+                    # Only add to list if actually downloaded (not skipped)
+                    downloaded_tarballs.append(tarball_path)
             except VotuDerepError as e:
                 console.print(f"[red]✗[/red] Failed to download {db['name']}: {e}")
                 success = False
@@ -233,32 +256,33 @@ def getdbs(ctx, outdir: str, force: bool):
                 success = False
                 raise
 
-        # Success! Clean up tarballs
-        if success:
-            console.print("\n[bold blue]Cleaning up...[/bold blue]")
+        # Success! Clean up tarballs (optional - only those we downloaded in this run)
+        if success and downloaded_tarballs:
+            console.print("\n[bold blue]Cleaning up newly downloaded tarballs...[/bold blue]")
             for tarball_path in downloaded_tarballs:
                 if tarball_path.exists():
                     tarball_path.unlink()
                     logger.info(f"Removed tarball: {tarball_path}")
                     console.print(f"[green]✓[/green] Removed {tarball_path.name}")
 
-                # Remove .done marker
-                done_marker = Path(str(tarball_path) + ".done")
-                if done_marker.exists():
-                    done_marker.unlink()
+                    # Also remove the .extracted marker since we removed the archive
+                    extraction_marker = tarball_path.parent / f"{tarball_path.name}.extracted"
+                    if extraction_marker.exists():
+                        extraction_marker.unlink()
+                        logger.info(f"Removed marker: {extraction_marker}")
 
-            console.print("\n[bold green]✓ All databases downloaded successfully![/bold green]")
-            console.print(f"[blue]Databases saved to:[/blue] {outdir_path}")
+        console.print("\n[bold green]✓ All databases processed successfully![/bold green]")
+        console.print(f"[blue]Databases saved to:[/blue] {outdir_path}")
 
-            # Summary
-            if verbose:
-                console.print("\n[bold]Database directories:[/bold]")
-                for item in sorted(outdir_path.iterdir()):
-                    if item.is_dir():
-                        # Calculate directory size
-                        total_size = sum(f.stat().st_size for f in item.rglob("*") if f.is_file())
-                        size_mb = total_size / (1024 * 1024)
-                        console.print(f"  • {item.name}/ ({size_mb:.1f} MB)")
+        # Summary
+        if verbose:
+            console.print("\n[bold]Database directories:[/bold]")
+            for item in sorted(outdir_path.iterdir()):
+                if item.is_dir() and not item.name.startswith("."):
+                    # Calculate directory size
+                    total_size = sum(f.stat().st_size for f in item.rglob("*") if f.is_file())
+                    size_mb = total_size / (1024 * 1024)
+                    console.print(f"  • {item.name}/ ({size_mb:.1f} MB)")
 
     except VotuDerepError as e:
         console.print(f"\n[bold red]Error:[/bold red] {e}")

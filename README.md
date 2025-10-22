@@ -1,6 +1,10 @@
 # votuderep
 
 [![Test](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml/badge.svg)](https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml)
+![PyPI - Version](https://img.shields.io/pypi/v/votuderep)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/votuderep)
+![Conda Version](https://img.shields.io/conda/vn/bioconda/votuderep)
+![Conda Downloads](https://img.shields.io/conda/dn/bioconda/votuderep)
 
 
 ![Logo](https://github.com/quadram-institute-bioscience/votuderep/raw/main/votuderep.png)
@@ -10,10 +14,13 @@ using the CheckV method.
 
 ## Features
 
-- **Dereplicate vOTUs**: Remove redundant viral sequences using BLAST-based ANI clustering
-- **Filter by CheckV metrics**: Filter viral contigs based on quality, completeness, and other metrics
-- **Tabulate reads**: Generate CSV tables from paired-end sequencing read directories
-- **Download training data**: Fetch viral assembly datasets for training purposes
+A small toolkit developed for the [EBAME](https://maignienlab.gitlab.io/ebame/) workshop with subcommands:
+
+- **derep**: Remove redundant viral sequences using BLAST-based ANI clustering
+- **filter**: Filter viral contigs based on quality, completeness, and other metrics from CheckV tsv output
+- **tabulate**: Generate CSV tables from paired-end sequencing read directories (for nextflow)
+- **trainingdata**: Fetch viral assembly datasets for training purposes
+- **getdbs**: Download Genomad and CheckV databases 
 
 ## Requirements
 
@@ -54,7 +61,7 @@ brew install blast
 
 ## Usage
 
-votuderep provides four main commands: `derep`, `filter`, `tabulate`, and `trainingdata`.
+votuderep provides subcommands: `derep`, `filter`, `tabulate`, and `trainingdata`...
 
 ### Dereplicate vOTUs
 
@@ -88,14 +95,7 @@ votuderep derep -i viral_contigs.fasta -o dereplicated.fasta \
 votuderep derep -i viral_contigs.fasta -o dereplicated.fasta \
   --keep --tmp ./temp_dir
 ```
-
-**How it works:**
-
-1. Creates a BLAST database from input sequences
-2. Performs all-vs-all BLASTN comparison
-3. Calculates ANI (Average Nucleotide Identity) and coverage
-4. Clusters sequences using greedy centroid-based algorithm
-5. Outputs the longest sequence from each cluster (representative)
+ 
 
 ### Filter by CheckV
 

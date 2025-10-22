@@ -188,9 +188,7 @@ def trainingdata(ctx, outdir: str, dataset_name: str):
     dataset: Dict[str, Any] = DATASETS.get(dataset_name)
     if not dataset:
         available = ", ".join(sorted(DATASETS.keys()))
-        raise VotuDerepError(
-            f"Unknown dataset '{dataset_name}'. Available datasets: {available}"
-        )
+        raise VotuDerepError(f"Unknown dataset '{dataset_name}'. Available datasets: {available}")
 
     # Create output directory
     outdir_path = Path(outdir)

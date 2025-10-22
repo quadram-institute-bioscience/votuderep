@@ -1,6 +1,6 @@
 """votuderep - A CLI tool for dereplicating and filtering viral contigs."""
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 __author__ = "Andrea Telatin"
 __license__ = "MIT"
 

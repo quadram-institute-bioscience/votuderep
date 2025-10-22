@@ -208,4 +208,5 @@ __marimo__/
 *.pyc
 data/
 
-*.egg-info/
+*.egg-info/*
+

@@ -13,6 +13,10 @@ src/votuderep.egg-info/top_level.txt
 src/votuderep/commands/__init__.py
 src/votuderep/commands/derep.py
 src/votuderep/commands/filter.py
+src/votuderep/commands/getdbs.py
+src/votuderep/commands/splitcoverm.py
+src/votuderep/commands/tabulate.py
+src/votuderep/commands/trainingdata.py
 src/votuderep/core/__init__.py
 src/votuderep/core/blast.py
 src/votuderep/core/dereplication.py
@@ -23,3 +27,4 @@ src/votuderep/utils/logging.py
 src/votuderep/utils/validators.py
 tests/test_derep.py
 tests/test_filter.py
+tests/test_splitcoverm.py

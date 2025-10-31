@@ -1,0 +1,83 @@
+site_name: votuderep Documentation
+site_description: Dereplication and filtering of viral operational taxonomic units (vOTUs)
+site_author: Andrea Telatin
+repo_url: https://github.com/telatin/derep-votus
+repo_name: telatin/derep-votus
+
+# Directory configuration
+docs_dir: docs_src
+site_dir: docs
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: installation.md
+    - Quick Start: quickstart.md
+  - CLI Commands:
+    - Overview: cli/index.md
+    - derep: cli/derep.md
+    - filter: cli/filter.md
+    - getdbs: cli/getdbs.md
+    - tabulate: cli/tabulate.md
+    - trainingdata: cli/trainingdata.md
+    - splitcoverm: cli/splitcoverm.md
+  - API Reference: api.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  version: 0.6.0
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/telatin/derep-votus

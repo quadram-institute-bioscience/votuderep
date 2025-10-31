@@ -13,23 +13,25 @@
       
       
       
+        <link rel="prev" href="../">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../filter/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
-        <title>votuderep Documentation</title>
+        <title>derep - votuderep Documentation</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,9 +50,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#votuderep" class="md-skip">
+        <a href="#votuderep-derep" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +96,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="votuderep Documentation" class="md-header__button md-logo" aria-label="votuderep Documentation" data-md-component="logo">
+    <a href="../.." title="votuderep Documentation" class="md-header__button md-logo" aria-label="votuderep Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              derep
             
           </span>
         </div>
@@ -225,11 +227,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../../installation/" class="md-tabs__link">
           
   
   
@@ -266,11 +266,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="cli/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -288,7 +290,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="api/" class="md-tabs__link">
+      <a href="../../api/" class="md-tabs__link">
         
   
   
@@ -323,7 +325,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="votuderep Documentation" class="md-nav__button md-logo" aria-label="votuderep Documentation" data-md-component="logo">
+    <a href="../.." title="votuderep Documentation" class="md-nav__button md-logo" aria-label="votuderep Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -350,32 +352,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -386,80 +366,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Requirements
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quick Links
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#global-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Global Options
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Authors
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -516,7 +422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -539,7 +445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quickstart/" class="md-nav__link">
+      <a href="../../quickstart/" class="md-nav__link">
         
   
   
@@ -566,28 +472,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -600,7 +509,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             CLI Commands
@@ -614,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -634,10 +543,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="cli/derep/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    derep
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -648,6 +579,188 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-dereplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Dereplication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-intermediate-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keep Intermediate Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#large-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Large Datasets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters Explained
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameters Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ani-threshold-min-ani" class="md-nav__link">
+    <span class="md-ellipsis">
+      ANI Threshold (--min-ani)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-threshold-min-tcov" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Threshold (--min-tcov)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -660,7 +773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/filter/" class="md-nav__link">
+      <a href="../filter/" class="md-nav__link">
         
   
   
@@ -683,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/getdbs/" class="md-nav__link">
+      <a href="../getdbs/" class="md-nav__link">
         
   
   
@@ -706,7 +819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/tabulate/" class="md-nav__link">
+      <a href="../tabulate/" class="md-nav__link">
         
   
   
@@ -729,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/trainingdata/" class="md-nav__link">
+      <a href="../trainingdata/" class="md-nav__link">
         
   
   
@@ -752,7 +865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cli/splitcoverm/" class="md-nav__link">
+      <a href="../splitcoverm/" class="md-nav__link">
         
   
   
@@ -782,7 +895,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/" class="md-nav__link">
+      <a href="../../api/" class="md-nav__link">
         
   
   
@@ -833,6 +946,141 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-dereplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Dereplication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-intermediate-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keep Intermediate Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#large-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Large Datasets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters Explained
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameters Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ani-threshold-min-ani" class="md-nav__link">
+    <span class="md-ellipsis">
+      ANI Threshold (--min-ani)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-threshold-min-tcov" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Threshold (--min-tcov)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       Requirements
@@ -842,36 +1090,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-links" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Links
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#global-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Global Options
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#authors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Authors
+      See Also
     </span>
   </a>
   
@@ -896,48 +1117,110 @@
   
 
 
-<h1 id="votuderep">votuderep<a class="headerlink" href="#votuderep" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml"><img alt="Test" src="https://github.com/quadram-institute-bioscience/votuderep/actions/workflows/test.yml/badge.svg" /></a>
-<img alt="PyPI - Version" src="https://img.shields.io/pypi/v/votuderep" />
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/votuderep" />
-<img alt="Conda Version" src="https://img.shields.io/conda/vn/bioconda/votuderep" />
-<img alt="Conda Downloads" src="https://img.shields.io/conda/dn/bioconda/votuderep" /></p>
-<p><img alt="Logo" src="https://github.com/quadram-institute-bioscience/votuderep/raw/main/votuderep.png" /></p>
-<p>A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral Operational Taxonomic Units) using the CheckV method.</p>
+<h1 id="votuderep-derep">votuderep derep<a class="headerlink" href="#votuderep-derep" title="Permanent link">&para;</a></h1>
+<p>Remove redundant viral sequences using BLAST-based ANI (Average Nucleotide Identity) clustering.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p><strong>votuderep</strong> is a small toolkit developed for the <a href="https://maignienlab.gitlab.io/ebame/">EBAME</a> workshop with subcommands for working with viral sequences:</p>
+<p>The <code>derep</code> command performs dereplication of viral sequences by:</p>
+<ol>
+<li>Running all-vs-all BLAST comparison</li>
+<li>Calculating ANI and alignment coverage for each pair</li>
+<li>Clustering sequences based on ANI and coverage thresholds</li>
+<li>Selecting representative sequences from each cluster</li>
+</ol>
+<p>This is useful for reducing redundancy in viral contig datasets while maintaining diversity.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>votuderep<span class="w"> </span>derep<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<h3 id="required-options">Required Options<a class="headerlink" href="#required-options" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><a href="cli/derep/">derep</a></strong>: Remove redundant viral sequences using BLAST-based ANI clustering</li>
-<li><strong><a href="cli/filter/">filter</a></strong>: Filter viral contigs based on quality, completeness, and other metrics from CheckV tsv output</li>
-<li><strong><a href="cli/getdbs/">getdbs</a></strong>: Download geNomad, CheckV, and PHROGs databases</li>
-<li><strong><a href="cli/tabulate/">tabulate</a></strong>: Generate CSV tables from paired-end sequencing read directories (for nextflow)</li>
-<li><strong><a href="cli/trainingdata/">trainingdata</a></strong>: Fetch viral assembly datasets for training purposes</li>
-<li><strong><a href="cli/splitcoverm/">splitcoverm</a></strong>: Split a CoverM TSV by metric into separate TSVs, one per metric</li>
+<li><code>-i, --input PATH</code> - Input FASTA file containing vOTUs</li>
 </ul>
+<h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>-o, --output PATH</code> - Output FASTA file with dereplicated vOTUs (default: dereplicated_vOTUs.fasta)</li>
+<li><code>-t, --threads INTEGER</code> - Number of threads for BLAST (default: 2)</li>
+<li><code>--tmp TEXT</code> - Directory for temporary files (default: $TEMP or /tmp or ./)</li>
+<li><code>--min-ani FLOAT</code> - Minimum ANI to consider two vOTUs as the same (default: 95.0)</li>
+<li><code>--min-tcov FLOAT</code> - Minimum target coverage to consider two vOTUs as the same (default: 85.0)</li>
+<li><code>--keep</code> - Keep the temporary directory after completion</li>
+</ul>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-dereplication">Basic Dereplication<a class="headerlink" href="#basic-dereplication" title="Permanent link">&para;</a></h3>
+<p>Use default thresholds (95% ANI, 85% coverage):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>votuderep<span class="w"> </span>derep<span class="w"> </span>-i<span class="w"> </span>viral_contigs.fasta<span class="w"> </span>-o<span class="w"> </span>dereplicated.fasta
+</code></pre></div>
+<h3 id="custom-parameters">Custom Parameters<a class="headerlink" href="#custom-parameters" title="Permanent link">&para;</a></h3>
+<p>Adjust ANI and coverage thresholds:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>votuderep<span class="w"> </span>derep<span class="w"> </span>-i<span class="w"> </span>viral_contigs.fasta<span class="w"> </span>-o<span class="w"> </span>dereplicated.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--min-ani<span class="w"> </span><span class="m">97</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--min-tcov<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-t<span class="w"> </span><span class="m">8</span>
+</code></pre></div>
+<h3 id="keep-intermediate-files">Keep Intermediate Files<a class="headerlink" href="#keep-intermediate-files" title="Permanent link">&para;</a></h3>
+<p>Useful for debugging or inspecting BLAST results:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>votuderep<span class="w"> </span>derep<span class="w"> </span>-i<span class="w"> </span>viral_contigs.fasta<span class="w"> </span>-o<span class="w"> </span>dereplicated.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--keep<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--tmp<span class="w"> </span>./temp_derep
+</code></pre></div>
+<p>This will preserve:
+- BLAST database files
+- BLAST output
+- Intermediate clustering files</p>
+<h3 id="large-datasets">Large Datasets<a class="headerlink" href="#large-datasets" title="Permanent link">&para;</a></h3>
+<p>For large datasets, increase threads and use a dedicated temporary directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>votuderep<span class="w"> </span>derep<span class="w"> </span>-i<span class="w"> </span>large_dataset.fasta<span class="w"> </span>-o<span class="w"> </span>dereplicated.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--min-ani<span class="w"> </span><span class="m">95</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--min-tcov<span class="w"> </span><span class="m">85</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>-t<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--tmp<span class="w"> </span>/scratch/temp_blast
+</code></pre></div>
+<h2 id="parameters-explained">Parameters Explained<a class="headerlink" href="#parameters-explained" title="Permanent link">&para;</a></h2>
+<h3 id="ani-threshold-min-ani">ANI Threshold (<code>--min-ani</code>)<a class="headerlink" href="#ani-threshold-min-ani" title="Permanent link">&para;</a></h3>
+<p>Average Nucleotide Identity measures sequence similarity:</p>
+<ul>
+<li><strong>95%</strong> (default): Standard for species-level clustering of viruses</li>
+<li><strong>97-99%</strong>: Stricter, for strain-level distinction</li>
+<li><strong>90-94%</strong>: More permissive, groups more diverse sequences</li>
+</ul>
+<h3 id="coverage-threshold-min-tcov">Coverage Threshold (<code>--min-tcov</code>)<a class="headerlink" href="#coverage-threshold-min-tcov" title="Permanent link">&para;</a></h3>
+<p>Target coverage measures what percentage of the shorter sequence is covered by the alignment:</p>
+<ul>
+<li><strong>85%</strong> (default): Balanced approach</li>
+<li><strong>90-95%</strong>: More stringent, requires longer alignments</li>
+<li><strong>70-80%</strong>: More permissive, allows partial matches</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Choosing Thresholds</p>
+<ul>
+<li>For species-level vOTUs: <code>--min-ani 95 --min-tcov 85</code></li>
+<li>For strain-level vOTUs: <code>--min-ani 97 --min-tcov 90</code></li>
+<li>For genus-level grouping: <code>--min-ani 90 --min-tcov 80</code></li>
+</ul>
+</div>
+<h2 id="performance-considerations">Performance Considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Threads</strong>: Use <code>-t</code> to match your CPU cores for faster BLAST</li>
+<li><strong>Temporary Directory</strong>: Use <code>--tmp</code> to specify a fast storage location (SSD or RAM disk)</li>
+<li><strong>Memory</strong>: Large datasets may require substantial RAM for BLAST operations</li>
+</ul>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<p>The output FASTA file contains representative sequences from each cluster. The selection criteria:</p>
+<ol>
+<li>Longest sequence in the cluster (by default)</li>
+<li>If tied, the one with the most connections</li>
+<li>If still tied, alphabetically first sequence ID</li>
+</ol>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>This command requires:</p>
 <ul>
-<li>Python &gt;= 3.10</li>
-<li>BLAST+ toolkit (specifically <code>blastn</code> and <code>makeblastdb</code>)</li>
+<li>BLAST+ toolkit (<code>blastn</code> and <code>makeblastdb</code>)</li>
+<li>Sufficient disk space in temporary directory for BLAST database and results</li>
 </ul>
-<h2 id="quick-links">Quick Links<a class="headerlink" href="#quick-links" title="Permanent link">&para;</a></h2>
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="installation/">Installation Guide</a></li>
-<li><a href="quickstart/">Quick Start Tutorial</a></li>
-<li><a href="cli/">CLI Commands Overview</a></li>
-<li><a href="api/">API Reference</a></li>
+<li><a href="../filter/">filter</a> - Filter sequences before dereplication</li>
+<li><a href="../../quickstart/">Quick Start Guide</a> - Complete workflow examples</li>
 </ul>
-<h2 id="global-options">Global Options<a class="headerlink" href="#global-options" title="Permanent link">&para;</a></h2>
-<p>All commands support the following global options:</p>
-<ul>
-<li><code>-v, --verbose</code>: Enable verbose logging</li>
-<li><code>-h, --help</code>: Show help message (also <code>--help</code>)</li>
-<li><code>--version</code>: Show version and exit</li>
-</ul>
-<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>MIT License - See LICENSE file for details</p>
-<h2 id="authors">Authors<a class="headerlink" href="#authors" title="Permanent link">&para;</a></h2>
-<p><strong>Andrea Telatin</strong> &amp; QIB Core Bioinformatics</p>
-<p>©️ Quadram Institute Bioscience 2025</p>
 
 
 
@@ -1008,10 +1291,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.6.0"}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.6.0"}</script>
     
     
-      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
     
   </body>

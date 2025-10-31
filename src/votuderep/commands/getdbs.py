@@ -179,7 +179,9 @@ def extract_tarball(
         return False
 
     # If no marker but directory exists, assume failed extraction and clean up
-    if extracted_dir.exists() and not extraction_marker.exists():
+    # ONLY do this for single-archive databases (extract_to is None)
+    # For multi-file databases like PHROGs that share a directory, don't delete
+    if extracted_dir.exists() and not extraction_marker.exists() and extract_to is None:
         logger.warning(f"Found incomplete extraction, removing: {extracted_dir}")
         console.print(f"[yellow]![/yellow] Removing incomplete extraction: {extracted_dir}")
         # Remove the incomplete extraction

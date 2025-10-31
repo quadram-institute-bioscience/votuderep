@@ -19,7 +19,7 @@ click.rich_click.ERRORS_SUGGESTION = "Try running the '--help' flag for more inf
 console = Console(stderr=True)
 
 
-@click.group()
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(version=__version__, prog_name="votuderep")
 @click.option("-v", "--verbose", is_flag=True, help="Enable verbose logging")
 @click.pass_context

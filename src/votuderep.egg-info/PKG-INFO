@@ -54,7 +54,8 @@ A small toolkit developed for the [EBAME](https://maignienlab.gitlab.io/ebame/) 
 - **filter**: Filter viral contigs based on quality, completeness, and other metrics from CheckV tsv output
 - **tabulate**: Generate CSV tables from paired-end sequencing read directories (for nextflow)
 - **trainingdata**: Fetch viral assembly datasets for training purposes
-- **getdbs**: Download Genomad and CheckV databases 
+- **getdbs**: Download Genomad and CheckV databases
+- **splitcoverm**: Split a CoverM TSV by metric into separate TSVs, one per metric.
 
 ## Requirements
 
@@ -95,7 +96,8 @@ brew install blast
 
 ## Usage
 
-votuderep provides subcommands: `derep`, `filter`, `tabulate`, and `trainingdata`...
+votuderep provides subcommands: `derep`, `filter`, `tabulate`, `trainingdata`, and `splitcoverm`.
+
 
 ### Dereplicate vOTUs
 
@@ -263,6 +265,31 @@ votuderep trainingdata
 
 # Download to custom directory
 votuderep trainingdata -o ./training_data/
+```
+
+### Split CoverM TSV
+
+Split a CoverM TSV by metric into separate TSVs, one per metric.
+Reads a CoverM output table containing multiple metrics across samples and splits it into individual TSV files, one for each metric. Each output file will have the format: `<basename>_<metric>.tsv`
+The input TSV is expected to have columns formatted as: "Contig", "<sample1> <metric1>", "<sample1> <metric2>", ...
+
+```bash
+votuderep splitcoverm -i coverage.tsv -o output/cov
+```
+
+**Options:**
+
+- `-i, --input`: Input CoverM TSV (optionally gzipped: .gz) [required]
+- `-o, --output-basename`: Output basename/prefix for generated files [required]
+
+**Examples:**
+
+```bash
+# Basic usage
+votuderep splitcoverm -i coverage.tsv -o output/cov
+
+# With gzipped input
+votuderep splitcoverm -i coverage.tsv.gz -o results/sample
 ```
 
 ## Global Options

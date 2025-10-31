@@ -1,8 +1,8 @@
 site_name: votuderep Documentation
 site_description: Dereplication and filtering of viral operational taxonomic units (vOTUs)
 site_author: Andrea Telatin
-repo_url: https://github.com/telatin/derep-votus
-repo_name: telatin/derep-votus
+repo_url: https://github.com/quadram-institute-bioscience/votuderep
+repo_name: quadram-institute-bioscience/votuderep
 
 # Directory configuration
 docs_dir: docs_src
@@ -80,4 +80,4 @@ extra:
   version: 0.6.0
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/telatin/derep-votus
+      link: https://github.com/quadram-institute-bioscience/votuderep

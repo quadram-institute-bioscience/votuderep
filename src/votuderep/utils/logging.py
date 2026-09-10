@@ -6,7 +6,6 @@ from typing import Optional
 from rich.console import Console
 from rich.logging import RichHandler
 
-
 # Global console instance for rich output
 console = Console(stderr=True)
 

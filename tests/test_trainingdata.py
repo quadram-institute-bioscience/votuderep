@@ -1,10 +1,10 @@
 """Tests for training data download helpers."""
 
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
-from click.testing import CliRunner
 import pytest
+from click.testing import CliRunner
 
 from votuderep.commands import trainingdata as trainingdata_module
 from votuderep.commands.trainingdata import (

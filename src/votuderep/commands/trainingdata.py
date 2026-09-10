@@ -1,10 +1,10 @@
 """Trainingdata command for downloading training datasets."""
 
-from dataclasses import dataclass
 import hashlib
-from pathlib import Path
 import shutil
 import subprocess
+from dataclasses import dataclass
+from pathlib import Path
 
 import rich_click as click
 from rich.console import Console
@@ -194,7 +194,7 @@ def download_item(
 
         except subprocess.CalledProcessError as e:
             last_error = e.stderr.strip() or str(e)
-        except Exception as e:
+        except (OSError, VotuDerepError) as e:
             last_error = str(e)
 
         remove_partial_file(partial_path)

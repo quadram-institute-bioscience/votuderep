@@ -159,7 +159,6 @@ def derep(
             console=console,
             transient=False,
         ) as progress:
-
             # Step 1: Create BLAST database
             task1 = progress.add_task("[cyan]Creating BLAST database...", total=None)
             db_path = os.path.join(temp_dir, "db")

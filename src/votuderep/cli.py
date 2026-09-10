@@ -19,7 +19,7 @@ click.rich_click.ERRORS_SUGGESTION = "Try running the '--help' flag for more inf
 console = Console(stderr=True)
 
 
-@click.group()
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(version=__version__, prog_name="votuderep")
 @click.option("-v", "--verbose", is_flag=True, help="Enable verbose logging")
 @click.pass_context
@@ -32,6 +32,7 @@ def cli(ctx, verbose: bool):
     • [bold]derep[/bold]: Dereplicate vOTUs using BLAST and ANI clustering
     • [bold]filter[/bold]: Filter FASTA files using CheckV quality metrics
     • [bold]getdbs[/bold]: Download geNomad and CheckV databases for EBAME tutorial
+    • [bold]splitcoverm[/bold]: Split CoverM TSV by metric into separate files
     • [bold]tabulate[/bold]: Generate CSV file from a directory containing reads
     • [bold]trainingdata[/bold]: Download training dataset from the internet
     """
@@ -50,6 +51,7 @@ def main():
         from .commands.derep import derep
         from .commands.filter import filter_cmd
         from .commands.getdbs import getdbs
+        from .commands.splitcoverm import splitcoverm
         from .commands.tabulate import tabulate
         from .commands.trainingdata import trainingdata
 
@@ -57,6 +59,7 @@ def main():
         cli.add_command(derep)
         cli.add_command(filter_cmd)
         cli.add_command(getdbs)
+        cli.add_command(splitcoverm)
         cli.add_command(tabulate)
         cli.add_command(trainingdata)
 

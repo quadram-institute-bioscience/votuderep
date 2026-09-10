@@ -245,7 +245,8 @@ def trainingdata(
     """
     Download training dataset from the internet.
 
-    Downloads viral assembly and sequencing reads for training purposes.
+    Uses a registry of datasets, each containing a set of
+    {url, path} items.
     """
     outdir_path = Path(outdir)
     verbose = (ctx.obj or {}).get("verbose", False)
@@ -283,7 +284,7 @@ def trainingdata(
             for file_path in sorted(outdir_path.rglob("*")):
                 if file_path.is_file():
                     size = file_path.stat().st_size / (1024 * 1024)  # MB
-                    console.print(f"  • {file_path.relative_to(outdir_path)} ({size:.1f} MB)")
+                    console.print(f"  \u2022 {file_path.relative_to(outdir_path)} ({size:.1f} MB)")
 
     except Exception as e:
         if isinstance(e, VotuDerepError):

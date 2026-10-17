@@ -3,7 +3,6 @@
 import gzip
 import textwrap
 import pytest
-from pathlib import Path
 from click.testing import CliRunner
 
 from votuderep.core.dereplication import (
@@ -15,7 +14,6 @@ from votuderep.core.dereplication import (
     calculate_ani,
     cluster_by_ani,
 )
-from votuderep.cli import cli
 from votuderep.commands.derep import derep
 from votuderep.commands.filter import filter_cmd
 
@@ -23,6 +21,7 @@ from votuderep.commands.filter import filter_cmd
 def _make_cli():
     """Return a fresh cli group with derep and filter registered."""
     from votuderep.cli import cli as _cli
+
     # Commands are idempotent to add; safe to call repeatedly in tests
     if "derep" not in _cli.commands:
         _cli.add_command(derep)
@@ -124,13 +123,9 @@ class TestAlignmentPruning:
 # Fixtures
 # ---------------------------------------------------------------------------
 
-BLAST_LINE = (
-    "seq1\tseq2\t95.5\t500\t4\t0\t1\t500\t1\t500\t1e-50\t900\t1000\t1200"
-)
+BLAST_LINE = "seq1\tseq2\t95.5\t500\t4\t0\t1\t500\t1\t500\t1e-50\t900\t1000\t1200"
 
-BLAST_LINE_SELF = (
-    "seq1\tseq1\t100.0\t1000\t0\t0\t1\t1000\t1\t1000\t0.0\t2000\t1000\t1000"
-)
+BLAST_LINE_SELF = "seq1\tseq1\t100.0\t1000\t0\t0\t1\t1000\t1\t1000\t0.0\t2000\t1000\t1000"
 
 FASTA_TWO_SEQS = textwrap.dedent("""\
     >seq1
@@ -150,6 +145,7 @@ ANI_HEADER = "qname\ttname\tnum_alns\tpid\tqcov\ttcov\n"
 # ---------------------------------------------------------------------------
 # Empty BLAST file
 # ---------------------------------------------------------------------------
+
 
 class TestEmptyBlastFile:
     """Behaviour when BLAST output is empty."""
@@ -182,6 +178,7 @@ class TestEmptyBlastFile:
 # ---------------------------------------------------------------------------
 # Malformed BLAST lines
 # ---------------------------------------------------------------------------
+
 
 class TestMalformedBlastLines:
     """Parsing failures surface with clear Python errors (no silent data corruption)."""
@@ -225,6 +222,7 @@ class TestMalformedBlastLines:
 # Single-sequence input
 # ---------------------------------------------------------------------------
 
+
 class TestSingleSequenceInput:
     """A FASTA with one sequence should yield itself as the sole representative."""
 
@@ -258,12 +256,14 @@ class TestSingleSequenceInput:
 # CLI integration
 # ---------------------------------------------------------------------------
 
+
 class TestCLIIntegration:
     """End-to-end CLI tests that do not require external binaries."""
 
     def test_derep_missing_blastn(self, tmp_path):
         """derep aborts cleanly when blastn is not on PATH."""
         import os
+
         fasta = tmp_path / "input.fasta"
         fasta.write_text(FASTA_TWO_SEQS)
 

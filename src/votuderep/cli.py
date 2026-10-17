@@ -48,6 +48,7 @@ def main():
     """Main entry point for the CLI."""
     try:
         # Import commands here to avoid circular imports
+        from .commands.brbh import brbh
         from .commands.derep import derep
         from .commands.filter import filter_cmd
         from .commands.getdbs import getdbs
@@ -56,6 +57,7 @@ def main():
         from .commands.trainingdata import trainingdata
 
         # Register commands
+        cli.add_command(brbh)
         cli.add_command(derep)
         cli.add_command(filter_cmd)
         cli.add_command(getdbs)

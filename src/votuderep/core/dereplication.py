@@ -48,7 +48,10 @@ def yield_alignment_blocks(blast_file: str) -> Iterator[List[Dict]]:
 
     try:
         # Initialize with first record
-        first_line = next(handle)
+        first_line = next(handle, None)
+        if first_line is None:
+            return  # Empty file — nothing to yield
+
         first_aln = parse_blast_line(first_line)
         key = (first_aln["qname"], first_aln["tname"])
         alns = [first_aln]
@@ -86,6 +89,9 @@ def prune_alignments(alns: List[Dict], min_length: int = 0, min_evalue: float = 
     Returns:
         Pruned list of alignments
     """
+    if not alns:
+        return []
+
     keep = []
     cur_aln = 0
     qry_len = alns[0]["qlen"]
@@ -242,6 +248,12 @@ def cluster_by_ani(
     # Sort by length descending
     sorted_seqs = [x[0] for x in sorted(seqs.items(), key=lambda x: x[1], reverse=True)]
     logger.info(f"Loaded {len(sorted_seqs)} sequences")
+
+    if not sorted_seqs:
+        logger.warning(
+            f"No sequences passed the minimum length filter ({min_length} bp). "
+            "Output will be empty."
+        )
 
     # Build edges from ANI file
     logger.debug("Building edges from ANI comparisons")

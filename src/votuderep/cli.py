@@ -15,6 +15,18 @@ click.rich_click.SHOW_ARGUMENTS = True
 click.rich_click.GROUP_ARGUMENTS_OPTIONS = True
 click.rich_click.STYLE_ERRORS_SUGGESTION = "yellow italic"
 click.rich_click.ERRORS_SUGGESTION = "Try running the '--help' flag for more information."
+click.rich_click.COMMAND_GROUPS = {
+    "votuderep": [
+        {
+            "name": "Main commands",
+            "commands": ["derep", "filter", "brbh"],
+        },
+        {
+            "name": "Utilities",
+            "commands": ["get-blast", "getdbs", "splitcoverm", "tabulate", "trainingdata"],
+        },
+    ]
+}
 
 console = Console(stderr=True)
 
@@ -51,6 +63,7 @@ def main():
         from .commands.brbh import brbh
         from .commands.derep import derep
         from .commands.filter import filter_cmd
+        from .commands.get_blast import get_blast
         from .commands.getdbs import getdbs
         from .commands.splitcoverm import splitcoverm
         from .commands.tabulate import tabulate
@@ -60,6 +73,7 @@ def main():
         cli.add_command(brbh)
         cli.add_command(derep)
         cli.add_command(filter_cmd)
+        cli.add_command(get_blast)
         cli.add_command(getdbs)
         cli.add_command(splitcoverm)
         cli.add_command(tabulate)

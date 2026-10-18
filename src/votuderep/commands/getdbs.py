@@ -1,7 +1,5 @@
 """Getdbs command for downloading genomad and checkv databases."""
 
-import platform
-import shutil
 import ssl
 import tarfile
 import urllib.request
@@ -240,80 +238,6 @@ def extract_tarball(
         raise VotuDerepError(f"Failed to extract {tarball_path}: {e}")
 
 
-BLAST_VERSION = "2.16.0"
-
-_BLAST_PLATFORM_MAP = {
-    ("darwin", "x86_64"): "x64-macosx",
-    ("darwin", "arm64"): "arm64-macosx",
-    ("linux", "x86_64"): "x64-linux",
-    ("linux", "aarch64"): "aarch64-linux",
-}
-
-
-def download_blast_binaries(bindir: Path, ssl_verify: bool = True) -> None:
-    """
-    Download and extract NCBI BLAST+ binaries to bindir.
-
-    Always downloads regardless of whether blastn/makeblastdb are in PATH.
-
-    Args:
-        bindir: Directory where the BLAST+ bin/ contents will be placed
-        ssl_verify: Whether to verify SSL certificates
-
-    Raises:
-        VotuDerepError: If the platform is unsupported or download/extraction fails
-    """
-    system = platform.system().lower()
-    machine = platform.machine().lower()
-
-    platform_tag = _BLAST_PLATFORM_MAP.get((system, machine))
-    if platform_tag is None:
-        raise VotuDerepError(
-            f"Unsupported platform: {system}/{machine}\n"
-            f"Supported platforms: {', '.join('/'.join(k) for k in _BLAST_PLATFORM_MAP)}"
-        )
-
-    archive_name = f"ncbi-blast-{BLAST_VERSION}+-{platform_tag}.tar.gz"
-    url = f"https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/{BLAST_VERSION}/{archive_name}"
-
-    bindir.mkdir(parents=True, exist_ok=True)
-
-    # Download to a temp file inside bindir
-    archive_path = bindir / archive_name
-    console.print(
-        f"\n[bold blue]Downloading BLAST+ {BLAST_VERSION} ({platform_tag})...[/bold blue]"
-    )
-
-    download_file_with_marker(
-        url, archive_path, f"Downloading {archive_name}", ssl_verify=ssl_verify
-    )
-
-    # Extract — the tarball contains ncbi-blast-<version>+/bin/blastn etc.
-    console.print("[bold blue]Extracting BLAST+ binaries...[/bold blue]")
-    tmp_extract = bindir / f"_blast_extract_{BLAST_VERSION}"
-    tmp_extract.mkdir(exist_ok=True)
-    try:
-        with tarfile.open(archive_path, "r:gz") as tar:
-            tar.extractall(path=tmp_extract)
-
-        # Move contents of the inner bin/ directory directly into bindir
-        inner_bin = tmp_extract / f"ncbi-blast-{BLAST_VERSION}+" / "bin"
-        if not inner_bin.is_dir():
-            raise VotuDerepError(f"Unexpected archive layout — bin/ not found under {tmp_extract}")
-
-        for binary in inner_bin.iterdir():
-            dest = bindir / binary.name
-            if dest.exists():
-                dest.unlink()
-            shutil.move(str(binary), str(dest))
-
-        console.print(f"[green]✓[/green] BLAST+ binaries installed to {bindir}")
-    finally:
-        shutil.rmtree(tmp_extract, ignore_errors=True)
-        if archive_path.exists():
-            archive_path.unlink()
-
-
 @click.command(name="getdbs")
 @click.option(
     "-o",
@@ -338,14 +262,8 @@ def download_blast_binaries(bindir: Path, ssl_verify: bool = True) -> None:
     default=False,
     help="Disable SSL certificate verification (use if server certificate has expired).",
 )
-@click.option(
-    "--blast-bindir",
-    default=None,
-    type=click.Path(),
-    help="Optional directory to download and extract BLAST+ binaries into (always downloads, even if blast is in PATH).",
-)
 @click.pass_context
-def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool, blast_bindir: str | None):
+def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool):
     """
     Download geNomad, CheckV, and PHROGs databases.
 
@@ -369,7 +287,6 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool, blast_
       votuderep getdbs -o ./db --db genomad_1.9,checkv_1.5
       votuderep getdbs -o ./db --db all
       votuderep getdbs -o ./db --db phrogs_4 --no-ssl-verify
-      votuderep getdbs -o ./db --blast-bindir ~/bin/blast
     """
     verbose = ctx.obj.get("verbose", False)
 
@@ -593,10 +510,6 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool, blast_
                     total_size = sum(f.stat().st_size for f in item.rglob("*") if f.is_file())
                     size_mb = total_size / (1024 * 1024)
                     console.print(f"  • {item.name}/ ({size_mb:.1f} MB)")
-
-        if blast_bindir is not None:
-            blast_bindir_path = Path(blast_bindir).resolve()
-            download_blast_binaries(blast_bindir_path, ssl_verify=not no_ssl_verify)
 
     except VotuDerepError as e:
         console.print(f"\n[bold red]Error:[/bold red] {e}")

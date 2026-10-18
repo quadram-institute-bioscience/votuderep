@@ -131,18 +131,29 @@ def _extract_bins(tarball: Path, dest_dir: Path) -> list[Path]:
 
 
 @click.command(name="get-blast")
+@click.option(
+    "-o",
+    "--outdir",
+    default=None,
+    type=click.Path(),
+    help="Install BLAST+ binaries into this directory (always downloads, even if blast is in PATH).",
+)
 @click.pass_context
-def get_blast(ctx):
+def get_blast(ctx, outdir: str | None):
     """
     Download and install BLAST+ binaries for the current platform.
 
     Fetches the latest BLAST+ release from NCBI and installs the binaries.
-    Installation is attempted in the following order:
+    Without -o, installation is attempted in the following order:
 
     \b
       1. Same directory as the votuderep CLI entrypoint
       2. First writable directory in $PATH
       3. Current working directory
+
+    \b
+    With -o OUTDIR, binaries are always installed into OUTDIR, even if
+    blastn is already in PATH.
     """
     verbose = ctx.obj.get("verbose", False)
 
@@ -158,31 +169,38 @@ def get_blast(ctx):
     filename, url = _fetch_tarball_info(suffix)
     console.print(f"[blue]Latest BLAST+:[/blue] {filename}")
 
-    # Pick install directory
-    candidates = _install_candidates()
-    if verbose:
-        console.print("[blue]Install candidates (in priority order):[/blue]")
-        for c in candidates:
-            writable = os.access(c, os.W_OK)
-            mark = "[green]writable[/green]" if writable else "[red]read-only[/red]"
-            console.print(f"  • {c}  ({mark})")
+    if outdir is not None:
+        # Explicit destination: always install, no PATH check
+        install_dir = Path(outdir).resolve()
+        install_dir.mkdir(parents=True, exist_ok=True)
+        console.print(f"[blue]Install directory:[/blue] {install_dir}")
+    else:
+        # Auto-detect: pick first writable candidate, skip if already present
+        candidates = _install_candidates()
+        if verbose:
+            console.print("[blue]Install candidates (in priority order):[/blue]")
+            for c in candidates:
+                writable = os.access(c, os.W_OK)
+                mark = "[green]writable[/green]" if writable else "[red]read-only[/red]"
+                console.print(f"  • {c}  ({mark})")
 
-    install_dir = next(
-        (c for c in candidates if c.is_dir() and os.access(c, os.W_OK)),
-        None,
-    )
-    if install_dir is None:
-        raise VotuDerepError(
-            "No writable installation directory found among candidates:\n"
-            + "\n".join(f"  {c}" for c in candidates)
+        install_dir = next(
+            (c for c in candidates if c.is_dir() and os.access(c, os.W_OK)),
+            None,
         )
+        if install_dir is None:
+            raise VotuDerepError(
+                "No writable installation directory found among candidates:\n"
+                + "\n".join(f"  {c}" for c in candidates)
+            )
 
-    console.print(f"[blue]Install directory:[/blue] {install_dir}")
+        console.print(f"[blue]Install directory:[/blue] {install_dir}")
 
-    # Skip if blastn already present
-    if (install_dir / "blastn").exists():
-        console.print(f"[yellow]⊙[/yellow] blastn already found in {install_dir} — nothing to do.")
-        return
+        if (install_dir / "blastn").exists():
+            console.print(
+                f"[yellow]⊙[/yellow] blastn already found in {install_dir} — nothing to do."
+            )
+            return
 
     # Download into a temp dir, then extract
     with tempfile.TemporaryDirectory() as tmpdir:

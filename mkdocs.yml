@@ -46,6 +46,7 @@ nav:
     - derep: cli/derep.md
     - filter: cli/filter.md
     - brbh: cli/brbh.md
+    - get-blast: cli/get-blast.md
     - getdbs: cli/getdbs.md
     - tabulate: cli/tabulate.md
     - trainingdata: cli/trainingdata.md

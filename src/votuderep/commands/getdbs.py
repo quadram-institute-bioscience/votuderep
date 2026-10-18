@@ -441,12 +441,13 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool):
                     if downloaded:
                         downloaded_tarballs.append(file_path)
                 except VotuDerepError as e:
-                    console.print(f"[red]✗[/red] Failed to download {file_config['filename']}: {e}")
                     if "CERTIFICATE_VERIFY_FAILED" in str(e) and not no_ssl_verify:
-                        console.print(
-                            "[yellow]Hint:[/yellow] The server's SSL certificate may have expired. "
-                            "Try re-running with [bold]--no-ssl-verify[/bold]."
+                        raise VotuDerepError(
+                            f"SSL certificate verification failed while downloading {file_config['filename']}.\n"
+                            "The server's SSL certificate may have expired.\n"
+                            "Re-run with [bold]--no-ssl-verify[/bold] to skip certificate checks."
                         )
+                    console.print(f"[red]✗[/red] Failed to download {file_config['filename']}: {e}")
                     success = False
                     raise
 

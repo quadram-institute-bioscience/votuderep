@@ -13,6 +13,13 @@ from ..utils.validators import VotuDerepError
 console = Console(stderr=True)
 logger = get_logger(__name__)
 
+# Tag hypotheses tried in order during auto-detection: (for_tag, rev_tag)
+_AUTO_HYPOTHESES = [
+    ("_R1.f", "_R2.f"),
+    ("_R1_", "_R2_"),
+    ("_1.f", "_2.f"),
+]
+
 
 def extract_sample_name(
     filename: str, for_tag: str, rev_tag: str, strip_strings: List[str]
@@ -52,6 +59,50 @@ def extract_sample_name(
 
     if sample_name and read_type:
         return (sample_name, read_type)
+    return None
+
+
+def auto_detect_tags(
+    input_dir: Path,
+    extension: str,
+    strip_strings: List[str],
+) -> Optional[tuple[str, str]]:
+    """
+    Auto-detect forward/reverse read tags by scoring hypotheses against the directory.
+
+    Tries each hypothesis pair in order:
+      1. ("_R1.f", "_R2.f")  — e.g. sample_R1.fastq.gz
+      2. ("_R1_", "_R2_")    — e.g. sample_R1_001.fastq.gz
+      3. ("_1.f",  "_2.f")   — e.g. sample_1.fastq.gz
+
+    A hypothesis wins when the set of sample names extracted via the forward tag
+    equals the set extracted via the reverse tag (non-empty, perfect pairing).
+
+    Returns:
+        (for_tag, rev_tag) on success, or None if no hypothesis matches.
+    """
+    files = [f.name for f in sorted(input_dir.iterdir()) if f.is_file()]
+    if extension:
+        files = [f for f in files if f.endswith(extension)]
+
+    for for_tag, rev_tag in _AUTO_HYPOTHESES:
+        r1_names: set[str] = set()
+        r2_names: set[str] = set()
+
+        for filename in files:
+            basename = filename
+            for strip_str in strip_strings:
+                basename = basename.replace(strip_str, "")
+
+            if for_tag in basename:
+                r1_names.add(basename.split(for_tag)[0])
+            elif rev_tag in basename:
+                r2_names.add(basename.split(rev_tag)[0])
+
+        if r1_names and r1_names == r2_names:
+            logger.debug(f"Auto-detected tags: for='{for_tag}' rev='{rev_tag}'")
+            return (for_tag, rev_tag)
+
     return None
 
 
@@ -164,17 +215,17 @@ def scan_directory(
     "-1",
     "--for-tag",
     type=str,
-    default="_R1",
+    default="auto",
     show_default=True,
-    help="Identifier for forward reads",
+    help="Identifier for forward reads (auto tries _R1.f, _R1_, _1.f in order)",
 )
 @click.option(
     "-2",
     "--rev-tag",
     type=str,
-    default="_R2",
+    default="auto",
     show_default=True,
-    help="Identifier for reverse reads",
+    help="Identifier for reverse reads (auto tries _R2.f, _R2_, _2.f in order)",
 )
 @click.option(
     "-s",
@@ -229,14 +280,35 @@ def tabulate(
     if verbose:
         console.print(f"[blue]Input directory:[/blue] {input_dir}")
         console.print(f"[blue]Extension filter:[/blue] {extension if extension else '(none)'}")
-        console.print(f"[blue]Forward tag:[/blue] {for_tag}")
-        console.print(f"[blue]Reverse tag:[/blue] {rev_tag}")
         if strip_strings:
             console.print(f"[blue]Strip strings:[/blue] {', '.join(strip_strings)}")
 
     try:
-        # Scan directory and build sample table
         input_path = Path(input_dir)
+
+        # Resolve auto-detection before scanning
+        if for_tag == "auto" or rev_tag == "auto":
+            if verbose:
+                console.print("[blue]Tag mode:[/blue] auto-detecting forward/reverse tags…")
+            detected = auto_detect_tags(input_path, extension, list(strip_strings))
+            if detected is None:
+                hypothesis_list = "  " + "\n  ".join(
+                    f"for='{f}' / rev='{r}'" for f, r in _AUTO_HYPOTHESES
+                )
+                console.print(
+                    "[bold red]Error:[/bold red] Could not auto-detect read tags.\n"
+                    "Tried the following hypotheses (none produced equal, paired sample sets):\n"
+                    f"{hypothesis_list}\n"
+                    "Please specify tags explicitly with [bold]--for-tag[/bold] and [bold]--rev-tag[/bold]."
+                )
+                raise click.Abort()
+            for_tag, rev_tag = detected
+
+        if verbose:
+            console.print(f"[blue]Forward tag:[/blue] {for_tag}")
+            console.print(f"[blue]Reverse tag:[/blue] {rev_tag}")
+
+        # Scan directory and build sample table
         samples = scan_directory(
             input_path,
             extension,

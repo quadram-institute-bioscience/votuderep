@@ -1,5 +1,6 @@
 """Getdbs command for downloading genomad and checkv databases."""
 
+import ssl
 import tarfile
 import urllib.request
 from pathlib import Path
@@ -16,7 +17,7 @@ logger = get_logger(__name__)
 
 
 def download_file_with_marker(
-    url: str, output_path: Path, description: str = "Downloading"
+    url: str, output_path: Path, description: str = "Downloading", ssl_verify: bool = True
 ) -> bool:
     """
     Download a file from a URL with progress indication.
@@ -66,7 +67,24 @@ def download_file_with_marker(
                     progress.update(task, completed=percent)
 
             # Download to .downloading file first
-            urllib.request.urlretrieve(url, str(downloading_path), reporthook)
+            if ssl_verify:
+                urllib.request.urlretrieve(url, str(downloading_path), reporthook)
+            else:
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ctx))
+                with opener.open(url) as response, open(downloading_path, "wb") as out_file:
+                    block_size = 8192
+                    total_size = int(response.headers.get("Content-Length", 0))
+                    block_num = 0
+                    while True:
+                        block = response.read(block_size)
+                        if not block:
+                            break
+                        out_file.write(block)
+                        block_num += 1
+                        reporthook(block_num, block_size, total_size)
             progress.update(task, completed=100)
 
         # Move to final location (remove .downloading suffix)
@@ -238,8 +256,14 @@ def extract_tarball(
     multiple=True,
     help="Database(s) to download: genomad_1.9, checkv_1.5, phrogs_4, or all (default: all). Can be repeated or comma-separated.",
 )
+@click.option(
+    "--no-ssl-verify",
+    is_flag=True,
+    default=False,
+    help="Disable SSL certificate verification (use if server certificate has expired).",
+)
 @click.pass_context
-def getdbs(ctx, outdir: str, force: bool, db: tuple):
+def getdbs(ctx, outdir: str, force: bool, db: tuple, no_ssl_verify: bool):
     """
     Download geNomad, CheckV, and PHROGs databases.
 
@@ -262,6 +286,7 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple):
       votuderep getdbs -o ./db --db genomad_1.9 --db checkv_1.5
       votuderep getdbs -o ./db --db genomad_1.9,checkv_1.5
       votuderep getdbs -o ./db --db all
+      votuderep getdbs -o ./db --db phrogs_4 --no-ssl-verify
     """
     verbose = ctx.obj.get("verbose", False)
 
@@ -311,6 +336,12 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple):
             logger.info(f"Created output directory: {outdir_path}")
         except Exception as e:
             raise VotuDerepError(f"Failed to create output directory: {e}")
+
+    if no_ssl_verify:
+        console.print(
+            "[yellow]⚠[/yellow] SSL certificate verification disabled (--no-ssl-verify). "
+            "Only use this if you trust the download source.\n"
+        )
 
     console.print("[bold green]Downloading databases...[/bold green]\n")
 
@@ -405,11 +436,17 @@ def getdbs(ctx, outdir: str, force: bool, db: tuple):
                         file_config["url"],
                         file_path,
                         f"Downloading {file_config['filename']}",
+                        ssl_verify=not no_ssl_verify,
                     )
                     if downloaded:
                         downloaded_tarballs.append(file_path)
                 except VotuDerepError as e:
                     console.print(f"[red]✗[/red] Failed to download {file_config['filename']}: {e}")
+                    if "CERTIFICATE_VERIFY_FAILED" in str(e) and not no_ssl_verify:
+                        console.print(
+                            "[yellow]Hint:[/yellow] The server's SSL certificate may have expired. "
+                            "Try re-running with [bold]--no-ssl-verify[/bold]."
+                        )
                     success = False
                     raise
 

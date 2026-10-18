@@ -91,8 +91,9 @@ Version Information
 -------------------
 """
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 __author__ = "Andrea Telatin"
 __license__ = "MIT"
 
 __all__ = ["__version__", "__author__", "__license__"]
+

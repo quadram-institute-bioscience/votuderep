@@ -1,0 +1,18 @@
+{
+    "module": "summary",
+    "input": "human_gut_assembly.fa.gz",
+    "input_md5": "9c4822401a47e23b3e6623bc786d9fe7",
+    "start_time": "2026-10-15T14:34:52.619769+00:00",
+    "parameters": {
+        "min_score": 0.7,
+        "max_fdr": 0.1,
+        "min_number_genes": 1,
+        "min_plasmid_hallmarks": 0,
+        "min_plasmid_hallmarks_short_seqs": 1,
+        "min_virus_hallmarks": 0,
+        "min_virus_hallmarks_short_seqs": 1,
+        "min_plasmid_marker_enrichment": 0.1,
+        "min_virus_marker_enrichment": 0.0,
+        "max_uscg": 4
+    }
+}

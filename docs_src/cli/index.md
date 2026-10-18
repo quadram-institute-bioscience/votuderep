@@ -22,6 +22,14 @@ Filter viral contigs based on CheckV quality metrics. Use this command after run
 votuderep filter contigs.fasta checkv_output.tsv --min-quality high -o filtered.fasta
 ```
 
+#### [brbh](brbh.md)
+Find Best Reciprocal Best Hits (BRBH) between two nucleotide FASTA files. Identifies orthologous sequence pairs by running forward and reverse BLASTN searches and keeping only pairs that are each other's best hit.
+
+**Quick Example:**
+```bash
+votuderep brbh genome_a.fasta genome_b.fasta -o results/
+```
+
 ### Database Management
 
 #### [getdbs](getdbs.md)

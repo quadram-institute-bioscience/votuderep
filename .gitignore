@@ -209,4 +209,12 @@ __marimo__/
 data/
 
 *.egg-info/*
-
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+Gemfile.lock
+*.tmp
+__pycache__
+*.pyc

@@ -16,6 +16,7 @@ A Python CLI tool for dereplicating and filtering viral contigs (vOTUs - viral O
 
 - **[derep](cli/derep.md)**: Remove redundant viral sequences using BLAST-based ANI clustering
 - **[filter](cli/filter.md)**: Filter viral contigs based on quality, completeness, and other metrics from CheckV tsv output
+- **[brbh](cli/brbh.md)**: Find Best Reciprocal Best Hits between two nucleotide FASTA files
 - **[getdbs](cli/getdbs.md)**: Download geNomad, CheckV, and PHROGs databases
 - **[tabulate](cli/tabulate.md)**: Generate CSV tables from paired-end sequencing read directories (for nextflow)
 - **[trainingdata](cli/trainingdata.md)**: Fetch viral assembly datasets for training purposes

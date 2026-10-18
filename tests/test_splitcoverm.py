@@ -104,8 +104,8 @@ class TestSplitCoverm:
 
     @pytest.fixture
     def test_data_dir(self):
-        """Get the path to the tests directory."""
-        return Path(__file__).parent
+        """Get the path to the test data directory."""
+        return Path(__file__).parent / "data"
 
     @pytest.fixture
     def coverm_file(self, test_data_dir):
